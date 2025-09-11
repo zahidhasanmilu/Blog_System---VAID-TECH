@@ -30,26 +30,32 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# Application definition
-
+# -----------------------------
+# Default Django apps
+# -----------------------------
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'ckeditor',
-    'ckeditor_uploader',
+    'django.contrib.admin',          # Admin panel
+    'django.contrib.auth',           # Authentication system
+    'django.contrib.contenttypes',   # Content types framework
+    'django.contrib.sessions',       # Session framework
+    'django.contrib.messages',       # Messaging framework
+    'django.contrib.staticfiles',    # Static file handling
+    'ckeditor',                      # CKEditor for rich text editing
+    'ckeditor_uploader',             # CKEditor image/file upload support
 ]
 
+# -----------------------------
+# Custom apps
+# -----------------------------
 CUSTOM_APPS = [
-    'app_account.apps.AppAccountConfig',
-    'app_home',
-    'django_cleanup.apps.CleanupConfig',
+    'app_account.apps.AppAccountConfig',   # Custom user & profile app
+    'app_home',                            # Blog/homepage app
+    'django_cleanup.apps.CleanupConfig',   # Automatically delete old files
 ]
 
+# Combine default and custom apps
 INSTALLED_APPS += CUSTOM_APPS
+
 AUTH_USER_MODEL = 'app_account.CustomUser'
 
 
@@ -125,6 +131,9 @@ USE_I18N = True
 
 USE_TZ = True
 
+
+# CKEditor upload path
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
