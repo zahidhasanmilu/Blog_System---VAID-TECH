@@ -1,23 +1,23 @@
 
 body {
   line-height: 1.7;
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   -webkit-font-smoothing: antialiased;
   color: #696c6d;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 p, .paragraph {
   font-weight: 400;
   color: #696c6d;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.7;
   font-family: "Open Sans", sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
   color: #1c1d1f;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   font-weight: 600;
   line-height: 1.2;
 }
@@ -43,13 +43,13 @@ h5, .h5 {
 }
 
 h6, .h6 {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 /* Button style */
 .btn {
-  font-size: 14px;
-  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  font-family: 'Ubuntu', sans-serif;
   text-transform: capitalize;
   padding: 8px 25px;
   border-radius: 50px;
@@ -335,7 +335,7 @@ a:hover {
   position: relative;
   color: #1c1d1f;
   transition: 0.2s ease;
-  font-size: 14px;
+  font-size: 16px;
 }
 @media (max-width: 991px) {
   .navbar .dropdown-item {
@@ -436,7 +436,7 @@ a:hover {
   display: block;
   color: #888c8e;
   padding: 5px;
-  font-size: 14px;
+  font-size: 16px;
 }
 .social-icons a:hover {
   color: #ce8460;
@@ -448,7 +448,7 @@ a:hover {
 .social-icons-rounded a {
   display: block;
   color: #888c8e;
-  font-size: 14px;
+  font-size: 16px;
   height: 40px;
   width: 40px;
   line-height: 40px;
@@ -638,7 +638,7 @@ a:hover {
   position: absolute;
   top: 2px;
   color: #fff;
-  font-family: "themify";
+  font-family: 'Ubuntu', sans-serif;
   font-weight: 900;
   content: "\e717";
   left: 10px;

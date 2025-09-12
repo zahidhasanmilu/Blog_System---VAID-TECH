@@ -26,7 +26,7 @@
                <h5 class="widget-title"><span>Tags</span></h5>
                <ul class="list-inline widget-list-inline">
                   {% for tag in tags %}
-                  <li class="list-inline-item"><a href="#!">{{tag.title}}</a>
+                  <li class="list-inline-item"><a href="#!">{{tag.title}} <small class="ml-auto">{{tag.tag_blogs.count}}</small></a>
                   </li>
                   {% endfor %}
                </ul>
@@ -35,43 +35,19 @@
             <div class="widget">
                <h5 class="widget-title"><span>Latest Article</span></h5>
                <!-- post-item -->
+
                <ul class="list-unstyled widget-list">
+                  {% for blog in recent_blogs %}
                   <li class="media widget-post align-items-center">
-                     <a href="post-elements.html">
-                        <img loading="lazy" class="mr-3" src="{% static 'images/post/post-6.jpg' %}">
-                     </a>
-                     <div class="media-body">
-                        <h5 class="h6 mb-0"><a href="post-elements.html">Elements That You Can Use To Create A New Post
-                              On
-                              This Template.</a></h5>
-                        <small>March 15, 2020</small>
-                     </div>
-                  </li>
-               </ul>
-               <ul class="list-unstyled widget-list">
-                  <li class="media widget-post align-items-center">
-                     <a href="post-details-1.html">
-                        <img loading="lazy" class="mr-3" src="{% static 'images/post/post-1.jpg' %}">
-                     </a>
-                     <div class="media-body">
-                        <h5 class="h6 mb-0"><a href="post-details-1.html">Cheerful Loving Couple Bakers Drinking
-                              Coffee</a>
-                        </h5>
-                        <small>March 14, 2020</small>
-                     </div>
-                  </li>
-               </ul>
-               <ul class="list-unstyled widget-list">
-                  <li class="media widget-post align-items-center">
-                     <a href="post-details-2.html">
+                     <!-- <a href="post-details-2.html">
                         <img loading="lazy" class="mr-3" src="{% static 'images/post/post-2.jpg' %}">
-                     </a>
+                     </a> -->
                      <div class="media-body">
-                        <h5 class="h6 mb-0"><a href="post-details-2.html">Cheerful Loving Couple Bakers Drinking
-                              Coffee</a>
+                        <h5 class="h6 mb-0"><a href="">{{blog.title}}</a>
                         </h5>
                         <small>March 14, 2020</small>
                      </div>
                   </li>
+                  {% endfor %}
                </ul>
             </div>
