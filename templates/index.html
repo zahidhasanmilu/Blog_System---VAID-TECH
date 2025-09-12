@@ -12,43 +12,60 @@ Home | Blog System
 
 {% block content %}
 <section class="section">
-   <div class="container">
-      <div class="row">
-         <div class="col-lg-8  mb-5 mb-lg-0">
-            {% for blog in blogs %}
-<article class="row mb-5">
-    <div class="col-md-4 mb-4 mb-md-0">
-        <div class="post-slider slider-sm">
-            {% for img in blog.blog_images.all %}
-            <a href="{{ img.image.url }}" data-lightbox="blog-{{ blog.id }}" data-title="{{ blog.title }}">
-                <img loading="lazy" src="{{ img.image.url }}" class="img-fluid" alt="{{ blog.title }}">
-            </a>
-            {% endfor %}
+    <div class="container p-4"> <!-- container যোগ করো -->
+        <div class="row">
+            <!-- Main Content -->
+            <div class="col-lg-8 mb-5 mb-lg-0">
+                {% for blog in blogs %}
+                <article class="row mb-5">
+                    <!-- <div class="col-md-4 mb-4 mb-md-0">
+                        <div class="post-slider slider-sm">
+                            {% for img in blog.blog_images.all %}
+                            <a href="{{ img.image.url }}" data-lightbox="blog-{{ blog.id }}"
+                                data-title="{{ blog.title }}">
+                                <img loading="lazy" src="{{ img.image.url }}" class="img-fluid" alt="{{ blog.title }}">
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div> -->
+                    <div class="col-md-12">
+                        <h3 class="h5"><a class="post-title" href="">{{ blog.title }}</a></h3>
+                        <ul class="list-inline post-meta mb-2">
+                            <li class="list-inline-item"><i class="ti-user mr-2"></i>
+                                <a href="#">{{ blog.author.get_full_name|default:blog.author.username }}</a>
+                            </li>
+                            <li class="list-inline-item">Date: {{ blog.created_date|date:"F d, Y" }}</li>
+                            <li class="list-inline-item">
+                                Categories: <a href="#!" class="ml-1">{{ blog.category.title }}</a>
+                            </li>
+                            <li class="list-inline-item">Tags:
+                                {% for tag in blog.tags.all %}
+                                <a href="#!" class="ml-1">{{ tag.title }}</a>{% if not forloop.last %},{% endif %}
+                                {% endfor %}
+                            </li>
+                        </ul>
+
+                        <!-- truncated content -->
+                        <p>{{ blog.content|truncatewords:40|safe }}</p>
+
+                        <a href="" class="btn btn-outline-primary">
+                            Continue Reading
+                        </a>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+
+            <!-- Sidebar -->
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <aside class="fixed-sidebar">
+                    {% include 'base/sideber.html' %}
+                </aside>
+            </div>
+
         </div>
     </div>
-    <div class="col-md-8">
-        <h3 class="h5"><a class="post-title" href="">{{ blog.title }}</a></h3>
-        <ul class="list-inline post-meta mb-2">
-            <li class="list-inline-item"><i class="ti-user mr-2"></i><a href="#">{{ blog.author.get_full_name|default:blog.author.username }}</a></li>
-            <li class="list-inline-item">Date: {{ blog.created_date|date:"F d, Y" }}</li>
-            <li class="list-inline-item">Categories: <a href="#!" class="ml-1">{{ blog.category.title }}</a></li>
-            <li class="list-inline-item">Tags: 
-                {% for tag in blog.tags.all %}
-                    <a href="#!" class="ml-1">{{ tag.title }}</a>{% if not forloop.last %},{% endif %}
-                {% endfor %}
-            </li>
-        </ul>
-       <p>{{ blog.content|safe }}</p>
-
-
-        <a href="" class="btn btn-outline-primary">Continue Reading</a>
-    </div>
-</article>
-{% endfor %}
-
-         </div>
-         {% include 'base/sideber.html' %}
-      </div>
-   </div>
 </section>
+
 {% endblock content %}
