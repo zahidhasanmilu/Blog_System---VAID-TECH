@@ -1,5 +1,6 @@
 {% extends 'base/base.html' %}
 {% load static %}
+{% load custom_filters %}
 
 
 
@@ -14,179 +15,37 @@ Home | Blog System
    <div class="container">
       <div class="row">
          <div class="col-lg-8  mb-5 mb-lg-0">
-            <article class="row mb-5">
-               <div class="col-md-4 mb-4 mb-md-0">
-                  <div class="post-slider slider-sm">
-                     <img loading="lazy" src="{% static 'images/post/post-6.jpg' %}" class="img-fluid" alt="post-thumb"
-                        style="height:200px; object-fit: cover;">
-                     <img loading="lazy" src="{% static 'images/post/post-1.jpg' %}" class="img-fluid" alt="post-thumb"
-                        style="height:200px; object-fit: cover;">
-                     <img loading="lazy" src="{% static 'images/post/post-3.jpg' %}" class="img-fluid" alt="post-thumb"
-                        style="height:200px; object-fit: cover;">
-                  </div>
-               </div>
-               <div class="col-md-8">
-                  <h3 class="h5"><a class="post-title" href="post-elements.html">Elements That You Can Use To Create A
-                        New
-                        Post On This Template.</a></h3>
-                  <ul class="list-inline post-meta mb-2">
-                     <li class="list-inline-item"><i class="ti-user mr-2"></i><a href="author.html">John Doe</a>
-                     </li>
-                     <li class="list-inline-item">Date : March 15, 2020</li>
-                     <li class="list-inline-item">Categories : <a href="#!" class="ml-1">Photography </a>
-                     </li>
-                     <li class="list-inline-item">Tags : <a href="#!" class="ml-1">Photo </a> ,<a href="#!"
-                           class="ml-1">Image </a>
-                     </li>
-                  </ul>
-                  <p>Heading example Here is example of hedings. You can use this heading by following markdownify
-                     rules. …</p> <a href="post-elements.html" class="btn btn-outline-primary">Continue Reading</a>
-               </div>
-            </article>
-            <article class="row mb-5">
-               <div class="col-md-4 mb-4 mb-md-0">
-                  <div class="post-slider slider-sm">
-                     <img loading="lazy" src="{% static 'images/post/post-1.jpg' %}" class="img-fluid" alt="post-thumb"
-                        style="height:200px; object-fit: cover;">
-                  </div>
-               </div>
-               <div class="col-md-8">
-                  <h3 class="h5"><a class="post-title" href="post-details-1.html">Cheerful Loving Couple Bakers Drinking
-                        Coffee</a></h3>
-                  <ul class="list-inline post-meta mb-2">
-                     <li class="list-inline-item"><i class="ti-user mr-2"></i><a href="author.html">John Doe</a>
-                     </li>
-                     <li class="list-inline-item">Date : March 14, 2020</li>
-                     <li class="list-inline-item">Categories : <a href="#!" class="ml-1">Photography </a>
-                     </li>
-                     <li class="list-inline-item">Tags : <a href="#!" class="ml-1">Photo </a> ,<a href="#!"
-                           class="ml-1">Image </a>
-                     </li>
-                  </ul>
-                  <p>It’s no secret that the digital industry is booming. From exciting startups to global brands, …</p>
-                  <a href="post-details-1.html" class="btn btn-outline-primary">Continue Reading</a>
-               </div>
-            </article>
-            <article class="row mb-5">
-               <div class="col-md-4 mb-4 mb-md-0">
-                  <div class="post-slider slider-sm">
-                     <img loading="lazy" src="{% static 'images/post/post-2.jpg' %}" class="img-fluid" alt="post-thumb"
-                        style="height:200px; object-fit: cover;">
-                     <img loading="lazy" src="{% static 'images/post/post-4.jpg' %}" class="img-fluid" alt="post-thumb"
-                        style="height:200px; object-fit: cover;">
-                  </div>
-               </div>
-               <div class="col-md-8">
-                  <h3 class="h5"><a class="post-title" href="post-details-2.html">Cheerful Loving Couple Bakers Drinking
-                        Coffee</a></h3>
-                  <ul class="list-inline post-meta mb-2">
-                     <li class="list-inline-item"><i class="ti-user mr-2"></i><a href="author.html">John Doe</a>
-                     </li>
-                     <li class="list-inline-item">Date : March 14, 2020</li>
-                     <li class="list-inline-item">Categories : <a href="#!" class="ml-1">Photobooth </a>
-                     </li>
-                     <li class="list-inline-item">Tags : <a href="#!" class="ml-1">Booth </a> ,<a href="#!"
-                           class="ml-1">Image </a>
-                     </li>
-                  </ul>
-                  <p>It’s no secret that the digital industry is booming. From exciting startups to global brands, …</p>
-                  <a href="post-details-2.html" class="btn btn-outline-primary">Continue Reading</a>
-               </div>
-            </article>
-            <article class="row mb-5">
-               <div class="col-md-4 mb-4 mb-md-0">
-                  <div class="post-slider slider-sm">
-                     <img loading="lazy" src="{% static 'images/post/post-3.jpg' %}" class="img-fluid" alt="post-thumb"
-                        style="height:200px; object-fit: cover;">
-                  </div>
-               </div>
-               <div class="col-md-8">
-                  <h3 class="h5"><a class="post-title" href="post-details-2.html">Cheerful Loving Couple Bakers Drinking
-                        Coffee</a></h3>
-                  <ul class="list-inline post-meta mb-2">
-                     <li class="list-inline-item"><i class="ti-user mr-2"></i><a href="author.html">John Doe</a>
-                     </li>
-                     <li class="list-inline-item">Date : March 14, 2020</li>
-                     <li class="list-inline-item">Categories : <a href="#!" class="ml-1">Videography </a>
-                     </li>
-                     <li class="list-inline-item">Tags : <a href="#!" class="ml-1">Video </a> ,<a href="#!"
-                           class="ml-1">Image </a>
-                     </li>
-                  </ul>
-                  <p>It’s no secret that the digital industry is booming. From exciting startups to global brands, …</p>
-                  <a href="post-details-2.html" class="btn btn-outline-primary">Continue Reading</a>
-               </div>
-            </article>
-            <article class="row mb-5">
-               <div class="col-md-4 mb-4 mb-md-0">
-                  <div class="post-slider slider-sm">
-                     <img loading="lazy" src="{% static 'images/post/post-4.jpg' %}" class="img-fluid" alt="post-thumb"
-                        style="height:200px; object-fit: cover;">
-                     <img loading="lazy" src="{% static 'images/post/post-1.jpg' %}" class="img-fluid" alt="post-thumb"
-                        style="height:200px; object-fit: cover;">
-                  </div>
-               </div>
-               <div class="col-md-8">
-                  <h3 class="h5"><a class="post-title" href="post-details-1.html">Cheerful Loving Couple Bakers Drinking
-                        Coffee</a></h3>
-                  <ul class="list-inline post-meta mb-2">
-                     <li class="list-inline-item"><i class="ti-user mr-2"></i><a href="author.html">John Doe</a>
-                     </li>
-                     <li class="list-inline-item">Date : March 14, 2020</li>
-                     <li class="list-inline-item">Categories : <a href="#!" class="ml-1">Four seasone </a>
-                     </li>
-                     <li class="list-inline-item">Tags : <a href="#!" class="ml-1">Seasone </a>
-                        ,<a href="#!" class="ml-1">New </a>
-                     </li>
-                  </ul>
-                  <p>It’s no secret that the digital industry is booming. From exciting startups to global brands, …</p>
-                  <a href="post-details-1.html" class="btn btn-outline-primary">Continue Reading</a>
-               </div>
-            </article>
-            <article class="row mb-5">
-               <div class="col-md-4 mb-4 mb-md-0">
-                  <div class="post-slider slider-sm">
-                     <img loading="lazy" src="{% static 'images/post/post-5.jpg' %}" class="img-fluid" alt="post-thumb"
-                        style="height:200px; object-fit: cover;">
-                  </div>
-               </div>
-               <div class="col-md-8">
-                  <h3 class="h5"><a class="post-title" href="post-details-1.html">Cheerful Loving Couple Bakers Drinking
-                        Coffee</a></h3>
-                  <ul class="list-inline post-meta mb-2">
-                     <li class="list-inline-item"><i class="ti-user mr-2"></i><a href="author.html">John Doe</a>
-                     </li>
-                     <li class="list-inline-item">Date : March 14, 2020</li>
-                     <li class="list-inline-item">Categories : <a href="#!" class="ml-1">Newyork city </a>
-                     </li>
-                     <li class="list-inline-item">Tags : <a href="#!" class="ml-1">City </a> ,<a href="#!"
-                           class="ml-1">Photo </a>
-                     </li>
-                  </ul>
-                  <p>It’s no secret that the digital industry is booming. From exciting startups to global brands, …</p>
-                  <a href="post-details-1.html" class="btn btn-outline-primary">Continue Reading</a>
-               </div>
-            </article>
-            <article class="row mb-5">
-               <div class="col-12">
-                  <h3 class="h5"><a class="post-title" href="post-details-2.html">Cheerful Loving Couple Bakers Drinking
-                        Coffee</a></h3>
-                  <ul class="list-inline post-meta mb-2">
-                     <li class="list-inline-item"><i class="ti-user mr-2"></i><a href="author.html">John Doe</a>
-                     </li>
-                     <li class="list-inline-item">Date : March 14, 2020</li>
-                     <li class="list-inline-item">Categories : <a href="#!" class="ml-1">Newyork city </a>
-                     </li>
-                     <li class="list-inline-item">Tags : <a href="#!" class="ml-1">City </a> ,<a href="#!"
-                           class="ml-1">Photo </a>
-                     </li>
-                  </ul>
-                  <p>It’s no secret that the digital industry is booming. From exciting startups to global brands,
-                     companies are reaching out to digital agencies, responding to the new possibilities available.
-                     However, the industry is fast becoming overcrowded, heaving with agencies offering similar services
-                     — on the …</p> <a href="post-details-2.html" class="btn btn-outline-primary">Continue Reading</a>
-               </div>
-            </article>
+            {% for blog in blogs %}
+<article class="row mb-5">
+    <div class="col-md-4 mb-4 mb-md-0">
+        <div class="post-slider slider-sm">
+            {% for img in blog.blog_images.all %}
+            <a href="{{ img.image.url }}" data-lightbox="blog-{{ blog.id }}" data-title="{{ blog.title }}">
+                <img loading="lazy" src="{{ img.image.url }}" class="img-fluid" alt="{{ blog.title }}">
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-md-8">
+        <h3 class="h5"><a class="post-title" href="">{{ blog.title }}</a></h3>
+        <ul class="list-inline post-meta mb-2">
+            <li class="list-inline-item"><i class="ti-user mr-2"></i><a href="#">{{ blog.author.get_full_name|default:blog.author.username }}</a></li>
+            <li class="list-inline-item">Date: {{ blog.created_date|date:"F d, Y" }}</li>
+            <li class="list-inline-item">Categories: <a href="#!" class="ml-1">{{ blog.category.title }}</a></li>
+            <li class="list-inline-item">Tags: 
+                {% for tag in blog.tags.all %}
+                    <a href="#!" class="ml-1">{{ tag.title }}</a>{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            </li>
+        </ul>
+       <p>{{ blog.content|safe }}</p>
+
+
+        <a href="" class="btn btn-outline-primary">Continue Reading</a>
+    </div>
+</article>
+{% endfor %}
+
          </div>
          {% include 'base/sideber.html' %}
       </div>
