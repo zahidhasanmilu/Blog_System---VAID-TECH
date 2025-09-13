@@ -57,12 +57,10 @@
                         aria-expanded="false">{{user.username}} Profile<i class="ti-angle-down ml-1"></i>
                      </a>
                      <div class="dropdown-menu">
-                        <a class="dropdown-item" href="author.html">Author</a>
+                        <a class="dropdown-item" href="{% url 'profile' user.username %}">{{user.username}}</a>
+
                         <a class="dropdown-item" href="post-details-1.html">Post Details 1</a>
-                        <a class="dropdown-item" href="post-details-2.html">Post Details 2</a>
-                        <a class="dropdown-item" href="post-elements.html">Post Elements</a>
-                        <a class="dropdown-item" href="privacy-policy.html">Privacy Policy</a>
-                        <a class="dropdown-item" href="terms-conditions.html">Terms Conditions</a>
+
                      </div>
                   </li>
                </ul>

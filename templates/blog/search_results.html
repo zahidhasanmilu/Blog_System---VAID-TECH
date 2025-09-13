@@ -17,9 +17,7 @@ Search | Blog System
 
         <div class="row">
             <!-- Main Content -->
-
-
-{% if blogs %}
+            {% if blogs %}
 
             <div class="col-lg-8 mb-5 mb-lg-0">
                 {% for blog in blogs %}
@@ -62,13 +60,12 @@ Search | Blog System
                 </article>
                 {% endfor %}
             </div>
-{% else %}
-    <div class="col-lg-8 mb-5 mb-lg-0">
-        <h3 class="mb-4">No blogs found for "{{ search_query }}"</h3>
-    </div>
-{% endif %}
+            {% else %}
+            <div class="col-lg-8 mb-5 mb-lg-0">
+                <h3 class="mb-4">No blogs found for "{{ search_query }}"</h3>
+            </div>
+            {% endif %}
 
-            <!-- Sidebar -->
             <!-- Sidebar -->
             <div class="col-lg-4">
                 <aside class="fixed-sidebar">
