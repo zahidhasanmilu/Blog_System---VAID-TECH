@@ -12,3 +12,6 @@ def get_recent_blogs(request):
     recent_blogs = Blog.objects.order_by('-created_date')[:5]
     return {'recent_blogs': recent_blogs}
 
+
+
+

@@ -13,10 +13,15 @@ Home | Blog System
 {% block content %}
 <section class="section">
     <div class="container p-4"> <!-- container যোগ করো -->
+        <h2 class="mb-4">Blogs in Category "{{ category }}"</h2>
+
         <div class="row">
             <!-- Main Content -->
+
+
+
             <div class="col-lg-8 mb-5 mb-lg-0">
-                {% for blog in blogs %}
+                {% for blog in category_blogs %}
                 <article class="row p-3 mb-4 blog-card">
                     <!-- <div class="col-md-4 mb-4 mb-md-0">
                         <div class="post-slider slider-sm">
@@ -29,7 +34,8 @@ Home | Blog System
                         </div>
                     </div> -->
                     <div class="col-md-12">
-                        <h3 class="h3"><a class="post-title" href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></h3>
+                        <h3 class="h3"><a class="post-title" href="{{ blog.get_absolute_url }}">{{ blog.title }}</a>
+                        </h3>
                         <ul class="list-inline post-meta mb-2">
                             <li class="list-inline-item"><i class="ti-user mr-2"></i>
                                 <a href="#">{{ blog.author.get_full_name|default:blog.author.username }}</a>

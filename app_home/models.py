@@ -3,8 +3,7 @@ import uuid
 from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
-from django.contrib.auth import get_user_model
-
+from django.urls import reverse
 from ckeditor_uploader.fields import RichTextUploadingField
 
 
@@ -88,6 +87,10 @@ class Blog(models.Model):
 
     class Meta:
         ordering = ['-created_date']
+        
+        
+    def get_absolute_url(self):
+        return reverse('blog-detail', kwargs={'slug': self.slug})
 
 
 class BlogImage(models.Model):

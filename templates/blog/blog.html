@@ -1,0 +1,55 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}{{ blog.title }} | Blog{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container p-4">
+        <div class="row">
+            <!-- Main Content -->
+            <div class="blog-card col-lg-8 rounded shadow-sm">
+                <article>
+                    <!-- Blog Images -->
+                    {% if blog.blog_images.all %}
+                    <div class="blog-images mt-4">
+                        {% for img in blog.blog_images.all %}
+                        <a href="{{ img.image.url }}" data-lightbox="blog-{{ blog.id }}" data-title="{{ blog.title }}">
+                            <img src="{{ img.image.url }}" class="img-fluid mb-2" alt="{{ blog.title }}">
+                        </a>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <h1>{{ blog.title }}</h1>
+                    <ul class="list-inline post-meta mb-2">
+                        <li class="list-inline-item">
+                            By: {{ blog.author.get_full_name|default:blog.author.username }}
+                        </li>
+                        <li class="list-inline-item">
+                            Date: {{ blog.created_date|date:"F d, Y" }}
+                        </li>
+                        <li class="list-inline-item">
+                            Category: {{ blog.category.title }}
+                        </li>
+                        <li class="list-inline-item">
+                            Tags:
+                            {% for tag in blog.tags.all %}
+                            <span>{{ tag.title }}</span>{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </li>
+                    </ul>
+
+                    <div class="post-content">
+                        {{ blog.content|safe }}
+                    </div>
+                </article>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                {% include 'base/sideber.html' %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
