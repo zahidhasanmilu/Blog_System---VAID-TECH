@@ -86,6 +86,8 @@
                         <ul>
                             {% for blog in user_blogs %}
                             <li><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></li>
+                            <a href="{% url 'blog-update' blog.slug %}" class="btn btn-primary">Edit</a>
+
                             {% empty %}
                             <li>No blogs yet.</li>
                             {% endfor %}

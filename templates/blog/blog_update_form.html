@@ -1,0 +1,63 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Update Blog | {{ form.instance.title }}{% endblock %}
+
+{% block content %}
+<div class="container p-4">
+    <h2 class="mb-4">Update Blog - {{ form.instance.title }}</h2>
+
+    <form method="post" action="{% url 'blog_update' form.instance.slug %}" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <!-- Title -->
+        <div class="mb-3">
+            <label for="id_title" class="form-label">Title</label>
+            {{ form.title }}
+        </div>
+
+        <!-- Content -->
+        <div class="mb-3">
+            <label for="id_content" class="form-label">Content</label>
+            {{ form.content }}
+        </div>
+
+        <!-- Category -->
+        <div class="mb-3">
+            <label for="id_category" class="form-label">Category</label>
+            {{ form.category }}
+        </div>
+
+        <!-- Tags -->
+        <div class="mb-3">
+            <label for="id_tags" class="form-label">Tags</label>
+            {{ form.tags }}
+        </div>
+
+        <!-- Multiple Images -->
+        <div class="mb-3">
+            <label for="id_images" class="form-label">Upload Images</label>
+            {{ form.images }}
+            <small class="text-muted d-block">You can upload multiple images.</small>
+        </div>
+
+        <!-- Already uploaded images -->
+        {% if form.instance.blog_images.all %}
+            <div class="mb-3">
+                <h5>Current Images:</h5>
+                <div class="row">
+                    {% for img in form.instance.blog_images.all %}
+                        <div class="col-md-3 mb-3">
+                            <img src="{{ img.image.url }}" class="img-fluid rounded shadow-sm" alt="Blog Image">
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        <button type="submit" class="btn btn-primary">Update Blog</button>
+        <a href="{{ form.instance.get_absolute_url }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}
