@@ -75,7 +75,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
 
             <!-- Right column -->
@@ -85,7 +85,7 @@
                     <h4 class="mb-3">Create a New Blog</h4>
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                         {{ form.title|as_crispy_field }}
+                        {{ form.title|as_crispy_field }}
                         {{ form.content|as_crispy_field }}
                         {{ form.category|as_crispy_field }}
                         {{ form.image|as_crispy_field }}
@@ -122,7 +122,10 @@
                                         <a href="{{ blog.get_absolute_url }}" class="btn btn-sm btn-primary">Read
                                             More</a>
                                         {% if blog.author == request.user %}
-                                        <a href="{% url 'update_blog' blog.id %}" class="btn btn-sm btn-secondary">Edit</a>
+                                        <a href="{% url 'update_blog' blog.id %}"
+                                            class="btn btn-sm btn-secondary">Edit</a>
+                                        <a href="{% url 'delete_blog' blog.id %}"
+                                            class="btn btn-sm btn-danger">Delete</a>
                                         {% endif %}
                                     </div>
                                 </div>

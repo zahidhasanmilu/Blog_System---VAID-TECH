@@ -117,3 +117,21 @@ def update_blog(request, id):
     }
 
     return render(request, 'blog/update_blog.html', context)
+
+
+@login_required
+def delete_blog(request, id):
+    blog = get_object_or_404(Blog, pk=id)
+    
+    # Only author can delete
+    if request.user != blog.author:
+        return redirect('home')
+    
+    if request.method == 'POST':
+        blog.delete()
+        return redirect('profile', username=request.user.username)
+
+    context = {
+        'blog': blog
+    }
+    return render(request, 'blog/delete_blog.html', context)
