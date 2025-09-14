@@ -23,7 +23,7 @@ from app_home.forms import BlogForm
 from app_home.models import Blog, BlogImage
 
 
-@login_required
+
 def User_ProfileView(request, username):
     profile_user = get_object_or_404(Profile, user__username=username)
     user_blogs = profile_user.user.user_blogs.all()

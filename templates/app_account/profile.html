@@ -80,33 +80,33 @@
 
             <!-- Right column -->
             <div class="col-md-8">
-                <div>
+                {% if request.user == profile_user.user %}
+    <h4 class="mb-3">Create a New Blog</h4>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
 
-                    <h4 class="mb-3">Create a New Blog</h4>
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        {{ form.title|as_crispy_field }}
-                        {{ form.content|as_crispy_field }}
-                        {{ form.category|as_crispy_field }}
-                        {{ form.image|as_crispy_field }}
+        <!-- Crispy fields -->
+        {{ form.title|as_crispy_field }}
+        {{ form.content|as_crispy_field }}
+        {{ form.category|as_crispy_field }}
+        {{ form.image|as_crispy_field }}
 
-                        <!-- Tags inline -->
-                        <div class="form-group mb-3">
-                            <label>Tags</label>
-                            <div class="d-flex flex-wrap">
-                                {% for checkbox in form.tags %}
-                                <div class="form-check mr-3 mb-2">
+        <!-- Tags inline -->
+        <div class="form-group mb-3">
+            <label>Tags</label>
+            <div class="d-flex flex-wrap">
+                {% for checkbox in form.tags %}
+                    <div class="form-check mr-3 mb-2">
+                        {{ checkbox }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
 
-                                    {{ checkbox }}
-                                </div>
-                                {% endfor %}
-                            </div>
-                        </div>
+        <button type="submit" class="btn btn-primary">Create Blog</button>
+    </form>
+{% endif %}
 
-                        <button type="submit" class="btn btn-primary">Create Blog</button>
-                    </form>
-
-                </div>
                 <!-- User Blogs -->
                 <div class="card">
                     <div class="card-body">
