@@ -30,6 +30,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
+
 # -----------------------------
 # Default Django apps
 # -----------------------------
@@ -41,9 +43,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',       # Messaging framework
     'django.contrib.staticfiles',    # Static file handling
     'ckeditor',                      # CKEditor for rich text editing
-    'ckeditor_uploader',             # CKEditor image/file upload support
+    'ckeditor_uploader',  
+     'crispy_forms',
+    'crispy_bootstrap4',
 ]
-
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 # -----------------------------
 # Custom apps
 # -----------------------------
@@ -137,8 +142,6 @@ USE_I18N = True
 USE_TZ = True
 
 
-# CKEditor upload path
-CKEDITOR_UPLOAD_PATH = "uploads/"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
@@ -156,3 +159,8 @@ MEDIA_ROOT=os.path.join(BASE_DIR ,'media')
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+# CKEditor upload path
+CKEDITOR_UPLOAD_PATH = "uploads/"

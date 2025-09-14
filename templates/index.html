@@ -46,7 +46,9 @@ Home | Blog System
                         </ul>
 
                         <!-- truncated content -->
-                        <p>{{ blog.content|truncatewords:40|safe }}</p>
+                        <!-- <p>{{ blog.content|truncatewords:40|safe }}</p> -->
+                        <p>{{ blog.content|truncatechars_html:200|safe }}
+</p>
 
                         <a href="{% url 'blog-detail' blog.slug %}" class="btn btn-outline-primary">
                             Continue Reading

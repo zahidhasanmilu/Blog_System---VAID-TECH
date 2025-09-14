@@ -1,7 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 # Login MIXIN
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView
+
+from app_home.forms import BlogForm
 # models
 from .models import Blog, Category, Tag, BlogImage
 from django.db.models import Q
@@ -91,3 +93,27 @@ class SearchResultsView(ListView):
         context = super().get_context_data(**kwargs)
         context['search_query'] = self.request.GET.get('q', '')
         return context
+
+
+def update_blog(request, id):
+    blog = get_object_or_404(Blog, pk=id)
+    if request.user != blog.author:
+        return redirect('home')
+    if request.method == 'POST':
+        form = BlogForm(request.POST, request.FILES, instance=blog)
+        if form.is_valid():
+            blog = form.save()
+            # Handle new image upload
+            image = form.cleaned_data.get('image')
+            if image:
+                BlogImage.objects.create(blog=blog, image=image)
+            return redirect('blog-detail', slug=blog.slug)
+    else:
+        form = BlogForm(instance=blog)
+
+    context = {
+        'form': form,
+        'blog': blog
+    }
+
+    return render(request, 'blog/update_blog.html', context)

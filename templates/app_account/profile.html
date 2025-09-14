@@ -1,5 +1,6 @@
 {% extends 'base/base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %}{{ profile_user.user.username }} | Profile{% endblock %}
 
@@ -29,16 +30,11 @@
                                 {% endif %}
 
                                 <p class="text-secondary mb-1">{{ profile_user.bio|default:"No bio available" }}</p>
-                                <p class="text-muted font-size-sm">{{ profile_user.location|default:"Unknown Location"}}</p>
+                                <p class="text-muted font-size-sm">{{ profile_user.address|default:"Unknown Location"}}
+                                </p>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- Right column -->
-            <div class="col-md-8">
-                <div class="card mb-3">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-3">
@@ -53,7 +49,8 @@
                             <div class="col-sm-3">
                                 <h6 class="mb-0">Full Name</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary">{{ profile_user.user.first_name }} {{profile_user.user.last_name }}</div>
+                            <div class="col-sm-9 text-secondary">{{ profile_user.user.first_name }}
+                                {{profile_user.user.last_name }}</div>
                         </div>
                         <hr>
 
@@ -78,22 +75,68 @@
                         </div>
                     </div>
                 </div>
+                
+            </div>
 
+            <!-- Right column -->
+            <div class="col-md-8">
+                <div>
+
+                    <h4 class="mb-3">Create a New Blog</h4>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                         {{ form.title|as_crispy_field }}
+                        {{ form.content|as_crispy_field }}
+                        {{ form.category|as_crispy_field }}
+                        {{ form.image|as_crispy_field }}
+
+                        <!-- Tags inline -->
+                        <div class="form-group mb-3">
+                            <label>Tags</label>
+                            <div class="d-flex flex-wrap">
+                                {% for checkbox in form.tags %}
+                                <div class="form-check mr-3 mb-2">
+
+                                    {{ checkbox }}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Create Blog</button>
+                    </form>
+
+                </div>
                 <!-- User Blogs -->
                 <div class="card">
                     <div class="card-body">
                         <h6 class="d-flex align-items-center mb-3">Blogs by {{ profile_user.user.username }}</h6>
-                        <ul>
-                            {% for blog in user_blogs %}
-                            <li><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></li>
-                            <a href="{% url 'blog-update' blog.slug %}" class="btn btn-primary">Edit</a>
 
+                        <div class="row">
+                            {% for blog in user_blogs %}
+                            <div class="col-md-12 mb-3">
+                                <div class="card h-100 shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ blog.title }}</h5>
+                                        <p class="card-text text-truncate">{{ blog.content|truncatechars:40|safe }}</p>
+                                        <a href="{{ blog.get_absolute_url }}" class="btn btn-sm btn-primary">Read
+                                            More</a>
+                                        {% if blog.author == request.user %}
+                                        <a href="{% url 'update_blog' blog.id %}" class="btn btn-sm btn-secondary">Edit</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
                             {% empty %}
-                            <li>No blogs yet.</li>
+                            <div class="col-12">
+                                <p>No blogs yet.</p>
+                            </div>
                             {% endfor %}
-                        </ul>
+                        </div>
+
                     </div>
                 </div>
+
 
             </div>
         </div>

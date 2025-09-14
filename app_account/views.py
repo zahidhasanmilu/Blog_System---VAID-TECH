@@ -10,32 +10,49 @@ from django.contrib import messages
 # Forms
 from .forms.login import LoginForm
 from .forms.register import RegisterForm
-from app_home.forms import BlogForm
+
 
 
 # Models
-from app_home.models import BlogImage, Blog
 from .models import Profile
 
 #User
 from django.contrib.auth import get_user_model
 User = get_user_model()
-import re
+from app_home.forms import BlogForm
+from app_home.models import Blog, BlogImage
 
 
 @login_required
 def User_ProfileView(request, username):
     profile_user = get_object_or_404(Profile, user__username=username)
-    # Assuming a related_name='blogs' in Blog model's ForeignKey to CustomUser
     user_blogs = profile_user.user.user_blogs.all()
+
+    form = None
+    if request.user == profile_user.user:
+        if request.method == 'POST':
+            form = BlogForm(request.POST, request.FILES)
+            if form.is_valid():
+                blog = form.save(commit=False)
+                blog.author = request.user
+                blog.save()
+                form.save_m2m()  # save tags
+
+                # Handle single image extra field
+                image = form.cleaned_data.get('image')
+                if image:
+                    BlogImage.objects.create(blog=blog, image=image)
+
+                return redirect('profile', username=username)
+        else:
+            form = BlogForm()
 
     context = {
         'profile_user': profile_user,
         'user_blogs': user_blogs,
+        'form': form
     }
     return render(request, 'app_account/profile.html', context)
-
-
 
 
 @logout_required
