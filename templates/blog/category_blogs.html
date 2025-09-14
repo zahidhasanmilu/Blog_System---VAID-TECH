@@ -5,7 +5,7 @@
 
 
 {% block title %}
-Home | Blog System
+category - {{category.title}} | Blog System
 {% endblock title %}
 
 
@@ -38,15 +38,21 @@ Home | Blog System
                         </h3>
                         <ul class="list-inline post-meta mb-2">
                             <li class="list-inline-item"><i class="ti-user mr-2"></i>
-                                <a href="#">{{ blog.author.get_full_name|default:blog.author.username }}</a>
+                                <a href="{% url 'profile' blog.author.username %}">{{ blog.author.get_full_name|default:blog.author.username }}</a>
                             </li>
                             <li class="list-inline-item">Date: {{ blog.created_date|date:"F d, Y" }}</li>
-                            <li class="list-inline-item">
-                                Categories: <a href="#!" class="ml-1">{{ blog.category.title }}</a>
+                           <li class="list-inline-item">
+                                Category: <a href="{% url 'category-blogs' blog.category.slug %}" class="ml-1">
+                                    {{blog.category.title }}</a>
                             </li>
-                            <li class="list-inline-item">Tags:
+                            <li class="list-inline-item">
+                                Tags:
                                 {% for tag in blog.tags.all %}
-                                <a href="#!" class="ml-1">{{ tag.title }}</a>{% if not forloop.last %},{% endif %}
+                                <a href="{% url 'tag-blogs' tag.slug %}" class="mr-1">
+                                    {{ tag.title}}
+                                </a>
+                                {% empty %}
+                                No tags
                                 {% endfor %}
                             </li>
                         </ul>

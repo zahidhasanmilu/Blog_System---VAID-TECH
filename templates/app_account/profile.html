@@ -118,7 +118,7 @@
                                 <div class="card h-100 shadow-sm">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ blog.title }}</h5>
-                                        <p class="card-text text-truncate">{{ blog.content|truncatechars:40|safe }}</p>
+                                        <p class="card-text text-truncate">{{ blog.content|truncatechars:60|safe }}</p>
                                         <a href="{{ blog.get_absolute_url }}" class="btn btn-sm btn-primary">Read
                                             More</a>
                                         {% if blog.author == request.user %}
