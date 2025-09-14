@@ -1,7 +1,10 @@
 from django.urls import path
-from .views import User_ProfileView,blog_update
+from .views import User_ProfileView,blog_update,user_register, user_login ,user_logout
 
 urlpatterns = [
     path('profile/<str:username>/', User_ProfileView, name='profile'),
-    path('blog/<slug:slug>/update/',blog_update , name='blog-update'),
+    
+    path('register/', user_register, name='resister'),    
+    path('login/', user_login, name='login'),
+    path('logout/', user_logout, name='logout'), 
 ]
