@@ -1,8 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
-from django.utils import timezone
-import os
 
+from django.utils import timezone
+from datetime import timedelta
+import os
+import os, uuid, random
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, username, password=None, **extra_fields):
@@ -26,7 +28,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=50)
     first_name = models.CharField(max_length=50, blank=True)
     last_name = models.CharField(max_length=50, blank=True)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)  # For Mail Verification
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
 
@@ -68,3 +70,20 @@ class Profile(models.Model):
 
     def get_short_name(self):
         return self.user.first_name if self.user.first_name else self.user.email
+
+
+
+# Email Verification Model
+class EmailVerification(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name="verification")
+    token = models.UUIDField(default=uuid.uuid4, editable=False)
+    otp = models.CharField(max_length=6, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_verified = models.BooleanField(default=False)
+    expires_at = models.DateTimeField(blank=True, null=True) 
+
+    def generate_otp(self):
+        import random
+        self.otp = str(random.randint(100000, 999999))
+        self.expires_at = timezone.now() + timedelta(minutes=2)  # 2 মিনিটের জন্য valid
+        self.save()
