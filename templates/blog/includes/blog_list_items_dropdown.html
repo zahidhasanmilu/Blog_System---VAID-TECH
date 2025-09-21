@@ -1,0 +1,9 @@
+{% for blog in blogs %}
+<li class="p-2 border-bottom">
+    <a href="{% url 'blog-detail' blog.slug %}" class="text-decoration-none">
+        {{ blog.title }} - <small class="text-muted">{{ blog.author.username }}</small>
+    </a>
+</li>
+{% empty %}
+<li class="text-center text-muted">No blogs found</li>
+{% endfor %}

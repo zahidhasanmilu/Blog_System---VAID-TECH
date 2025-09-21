@@ -4,11 +4,23 @@
 <!-- Search -->
 <div class="widget">
    <h5 class="widget-title"><span>Search</span></h5>
-   <form action="{% url 'search' %}" class="widget-search">
+   <!-- <form action="{% url 'search-results' %}" method="GET" class="widget-search">
       <input id="search-query" name="q" type="search" placeholder="Type &amp; Hit Enter...">
       <button type="submit"><i class="ti-search"></i>
       </button>
+   </form> -->
+
+   <form action="{% url 'search-results' %}" method="GET" class="widget-search position-relative">
+      <input id="search-query" name="q" type="search" required placeholder="Type & Hit Enter..." autocomplete="off">
+      <button type="submit"><i class="ti-search"></i></button>
+
+      <!-- Dropdown results -->
+      <ul id="search-results" class="position-absolute bg-white border rounded w-100"
+         style="top:100%; left:0; z-index:1000; max-height:300px; overflow-y:auto; display:none;">
+         <!-- AJAX results will be injected here -->
+      </ul>
    </form>
+
 </div>
 <!-- categories -->
 <div class="widget">
@@ -31,7 +43,7 @@
       {% for tag in tags %}
       <li class="list-inline-item cate-card p-1">
          <a href="{% url 'tag-blogs' tag.slug %}">
-            {{tag.title}} 
+            {{tag.title}}
             <small class="ml-auto">{{tag.tag_blogs.count}}</small></a>
       </li>
       {% endfor %}

@@ -1,0 +1,26 @@
+<input type="text" id="search-box" class="form-control" placeholder="Search blogs..." value="{{ search_query }}">
+
+<div id="search-results">
+    {% include 'partials/blog_list.html' with blogs=blogs %}
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function(){
+    let timer;
+    $("#search-box").keyup(function(){
+        clearTimeout(timer);
+        let query = $(this).val();
+
+        timer = setTimeout(function(){
+            $.ajax({
+                url: "{% url 'jquery_search' %}",
+                data: {q: query},
+                success: function(data){
+                    $("#search-results").html(data.html);
+                }
+            });
+        }, 300); // debounce 300ms
+    });
+});
+</script>

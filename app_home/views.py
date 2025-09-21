@@ -81,7 +81,7 @@ class SearchResultsView(ListView):
         if query:
             return Blog.objects.filter(
                 Q(title__icontains=query) |
-                Q(content__icontains=query) |
+                # Q(content__icontains=query) |
                 Q(tags__title__icontains=query) |
                 Q(category__title__icontains=query) |
                 Q(author__username__icontains=query)
@@ -135,3 +135,23 @@ def delete_blog(request, id):
         'blog': blog
     }
     return render(request, 'blog/delete_blog.html', context)
+
+
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+from .models import Blog
+
+def blog_search_ajax(request):
+    query = request.GET.get('q', '')
+    blogs = Blog.objects.select_related('author', 'category').prefetch_related('tags')
+
+    if query:
+        # filter by title OR category title OR tag title
+        blogs = blogs.filter(
+            Q(title__icontains=query) |
+            Q(category__title__icontains=query) |
+            Q(tags__title__icontains=query)
+        ).distinct()[:10]  # limit results & distinct to avoid duplicates
+
+    html = render_to_string('blog/includes/blog_list_items_dropdown.html', {'blogs': blogs})
+    return JsonResponse({'html': html})
