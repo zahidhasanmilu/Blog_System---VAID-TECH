@@ -7,6 +7,7 @@ from app_home.forms import BlogForm
 # models
 from .models import Blog, Category, Tag, BlogImage
 from django.db.models import Q
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -14,6 +15,7 @@ class HomeView(ListView):
     model = Blog
     template_name = 'index.html'  # specify your template
     context_object_name = 'blogs'  # the context variable in template
+    paginate_by = 5  
 
     # Optional: use prefetch_related to optimize queries
     def get_queryset(self):
@@ -155,3 +157,4 @@ def blog_search_ajax(request):
 
     html = render_to_string('blog/includes/blog_list_items_dropdown.html', {'blogs': blogs})
     return JsonResponse({'html': html})
+
