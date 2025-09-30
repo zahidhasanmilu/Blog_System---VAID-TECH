@@ -174,3 +174,11 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "zahidhasan.miluu@gmail.com"
 EMAIL_HOST_PASSWORD = "supa fdic chnn hent"
+
+
+# Celery Configuration Options
+# Blog_System/settings.py
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'          # Task Queue
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'      # Task Result
+CELERY_TIMEZONE = 'Asia/Dhaka'

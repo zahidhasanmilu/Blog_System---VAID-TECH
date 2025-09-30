@@ -112,10 +112,35 @@ def user_register(request):
 # -------------------
 # Send Verification Email
 # -------------------
+# def send_verification_email(request, user):
+#     verification = user.verification
+
+#     # ✅ Use reverse() for future-proof URL
+#     link = request.build_absolute_uri(
+#         reverse("activate_with_link", args=[verification.token])
+#     )
+
+#     subject = "Verify your email"
+#     message = f"""
+#     Hi {user.username},
+
+#     Thanks for registering!
+
+#     Please verify your email by clicking this link:
+#     {link}
+
+#     OR use this OTP: {verification.otp}
+
+#     If you didn’t receive or your code expired, you can request a new one.
+#     """
+#     send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email])
+    
+from .tasks import send_verification_email_task
+from django.urls import reverse
+
 def send_verification_email(request, user):
     verification = user.verification
 
-    # ✅ Use reverse() for future-proof URL
     link = request.build_absolute_uri(
         reverse("activate_with_link", args=[verification.token])
     )
@@ -133,8 +158,8 @@ def send_verification_email(request, user):
 
     If you didn’t receive or your code expired, you can request a new one.
     """
-    send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email])
-
+    # Celery দিয়ে ব্যাকগ্রাউন্ডে ইমেইল পাঠানো
+    send_verification_email_task.delay(subject, message, [user.email])
 
 # -------------------
 # Verify with Link
