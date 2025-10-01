@@ -1,218 +1,50 @@
 <!doctype html>
-<html lang="bn">
+<html lang="en">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Site Under Construction</title>
-  <style>
-    :root{
-      --bg1: #0f172a; /* dark navy */
-      --bg2: #0b1220; /* deeper */
-      --accent1: #7c3aed; /* purple */
-      --accent2: #06b6d4; /* cyan */
-      --muted: rgba(255,255,255,0.75);
-      --glass: rgba(255,255,255,0.04);
-    }
-    html,body{height:100%;}
-    body{
-      margin:0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-      background: radial-gradient(1200px 600px at 10% 20%, rgba(124,58,237,0.12), transparent),
-                  radial-gradient(1000px 500px at 90% 80%, rgba(6,182,212,0.08), transparent),
-                  linear-gradient(180deg,var(--bg1), var(--bg2));
-      color: white;
-      -webkit-font-smoothing:antialiased;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px;
-      box-sizing:border-box;
-    }
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Site Under Construction</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background-color: #f8f9fa;
+            /* offwhite */
+            font-family: Arial, sans-serif;
+        }
 
-    .card{
-      width:100%;
-      max-width:980px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-      border-radius:18px;
-      padding:36px;
-      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
-      backdrop-filter: blur(6px) saturate(120%);
-      display:grid;
-      grid-template-columns: 1fr 420px;
-      gap:28px;
-      align-items:center;
-    }
+        h1 {
+            font-size: 48px;
+            color: #222;
+            margin: 0;
+        }
 
-    .left h1{
-      margin:0 0 10px 0;
-      font-size:36px;
-      letter-spacing: -0.02em;
-    }
-    .left p{
-      margin:0 0 18px 0;
-      color:var(--muted);
-      line-height:1.55;
-    }
+        p {
+            font-size: 18px;
+            color: #444;
+            margin-top: 12px;
+        }
 
-    .actions{
-      display:flex;
-      gap:12px;
-      align-items:center;
-      flex-wrap:wrap;
-    }
-    .btn{
-      padding:10px 16px;
-      border-radius:10px;
-      font-weight:600;
-      cursor:pointer;
-      border: none;
-      background: linear-gradient(90deg,var(--accent1), var(--accent2));
-      color: #021026;
-      box-shadow: 0 8px 18px rgba(6,182,212,0.12);
-    }
-    .link-ghost{
-      background:transparent;
-      color:var(--muted);
-      border-radius:10px;
-      padding:8px 12px;
-      border:1px solid rgba(255,255,255,0.04);
-    }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
 
-    /* Animated device / gears */
-    .scene{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:20px;
-      border-radius:12px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
-    }
-
-    .device{
-      width:320px;
-      height:220px;
-      border-radius:12px;
-      position:relative;
-      overflow:hidden;
-      background: linear-gradient(180deg, rgba(2,6,23,0.85), rgba(8,12,30,0.65));
-      border: 1px solid rgba(255,255,255,0.04);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-
-    /* floating grid */
-    .grid{
-      position:absolute;
-      inset:0;
-      background-image: linear-gradient(transparent 50%, rgba(255,255,255,0.02) 50%), linear-gradient(90deg, transparent 50%, rgba(255,255,255,0.02) 50%);
-      background-size: 60px 60px, 60px 60px;
-      opacity:0.6;
-      transform-origin:center;
-      animation: floatGrid 10s linear infinite;
-      mix-blend-mode:overlay;
-      pointer-events:none;
-    }
-    @keyframes floatGrid{
-      0%{transform: rotate(0deg) translateY(0px)}
-      50%{transform: rotate(6deg) translateY(-8px)}
-      100%{transform: rotate(0deg) translateY(0px)}
-    }
-
-    .lamp{
-      position:absolute;
-      top:10px;
-      right:12px;
-      width:46px;height:46px;
-      border-radius:50%;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.22), rgba(255,255,255,0.04));
-      box-shadow: 0 8px 30px rgba(124,58,237,0.08);
-      animation: pulse 2.8s infinite;
-    }
-    @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
-
-    .icon-wrap{
-      width:160px;height:120px;display:flex;align-items:center;justify-content:center;z-index:2;
-      transform-origin:center;
-      animation: bob 4s ease-in-out infinite;
-    }
-    @keyframes bob{0%{transform:translateY(0)}50%{transform:translateY(-9px)}100%{transform:translateY(0)}}
-
-    .progress{
-      position:absolute;left:18px;bottom:18px;right:18px;height:8px;border-radius:999px;background:rgba(255,255,255,0.03);overflow:hidden;
-    }
-    .progress > span{
-      display:block;height:100%;width:40%;background:linear-gradient(90deg,var(--accent1),var(--accent2));
-      border-radius:999px;animation: slide 3.2s cubic-bezier(.2,.8,.2,1) infinite;
-    }
-    @keyframes slide{0%{transform:translateX(-120%)}100%{transform:translateX(220%)}}
-
-    /* small footer text */
-    .meta{font-size:13px;color:rgba(255,255,255,0.55);margin-top:12px}
-
-    /* responsive */
-    @media (max-width:900px){
-      .card{grid-template-columns:1fr; padding:28px;}
-      .device{width:100%;height:200px}
-    }
-
-  </style>
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
+
 <body>
-  <div class="card" role="main" aria-labelledby="uc-title">
-    <div class="left">
-      <h1 id="uc-title">আমরা আসছি — সাইটটি নির্মাণকালে আছে</h1>
-      <p>দারুণ কিছু গঠনচরিত ও আপডেট চলছে। আমাদের টিম কাজ করছে যাতে শিগগিরই আরও ভালো অভিজ্ঞতা দিতে পারি। আর কিছুক্ষণ অপেক্ষা করুন — আমরা তাড়াতাড়ি ফিরে আসব।</p>
-
-      <div class="actions">
-        <button class="btn" onclick="notify()">আপডেট পেতে সাবস্ক্রাইব</button>
-        <a class="link-ghost" href="/">হোমে ফিরে যান</a>
-      </div>
-
-      <div class="meta">প্রয়োজন হলে তুমি <a href="mailto:zahidhasan.miluu@gmail.com" style="color:inherit; text-decoration:underline;">admin@example.com</a>-এ যোগাযোগ করতে পারো</div>
-    </div>
-
-    <div class="scene" aria-hidden="true">
-      <div class="device" role="img" aria-label="Under construction illustration">
-        <div class="grid"></div>
-        <div class="lamp"></div>
-        <div class="icon-wrap">
-          <!-- stylized wrench + gear SVG -->
-          <svg width="140" height="100" viewBox="0 0 140 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="g1" x1="0" x2="1">
-                <stop offset="0" stop-color="#7c3aed" />
-                <stop offset="1" stop-color="#06b6d4" />
-              </linearGradient>
-            </defs>
-            <g transform="translate(10,6)">
-              <path d="M26 52c-4 4-6 9-6 14 0 12 10 22 22 22 5 0 10-2 14-6l32-32-30-30L26 52z" fill="url(#g1)" opacity="0.98" />
-              <g transform="translate(88,8) scale(.8)">
-                <circle cx="8" cy="8" r="8" fill="#0b1220" stroke="url(#g1)" stroke-width="3" />
-                <g transform="translate(8,8)">
-                  <path d="M-10-2 L-6-6 M2-10 L6-6 M10 2 L6 6 M-2 10 L-6 6" stroke="url(#g1)" stroke-width="2" stroke-linecap="round"/>
-                </g>
-              </g>
-            </g>
-          </svg>
-        </div>
-
-        <div class="progress" aria-hidden="true"><span></span></div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    function notify(){
-      // Simple interaction to show microcopy — replace with real modal or subscription logic
-      const original = event?.target;
-      if(original){
-        original.disabled = true;
-        original.textContent = 'ধন্যবাদ — পরবর্তী আপডেট পাবেন';
-        setTimeout(()=>{ original.disabled = false; original.textContent = 'আপডেট পেতে সাবস্ক্রাইব'; }, 3000);
-      }
-    }
-  </script>
+    <h1>Site is under construction</h1>
+    <p>If you need any help, please contact us at <a
+            href="mailto:zahidhasan.miluu@gmail.com">zahidhasan.miluu@gmail.com</a></p>
 </body>
+
 </html>

@@ -13,3 +13,6 @@ urlpatterns = [
 ]
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Wrong Path Exception Handling
+handler404 = 'app_home.views.custom_404'
