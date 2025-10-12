@@ -1,4 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect,render
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 
 # class UnderConstructionMiddleware:
@@ -24,7 +26,7 @@ class UnderConstructionMiddleware:
     
     def __call__(self, request):
         # এখানে চেক করা হবে কোন path under construction
-        under_construction_paths = ['/account/', ]  # example paths
+        under_construction_paths = ['/tag/inheritance/', ]  # example paths
 
         if request.path in under_construction_paths:
             return render(request, 'underConstruction.html')
@@ -32,3 +34,4 @@ class UnderConstructionMiddleware:
         # অন্য request normal response পাবে
         response = self.get_response(request)
         return response
+    

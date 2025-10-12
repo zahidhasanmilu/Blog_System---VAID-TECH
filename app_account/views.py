@@ -1,3 +1,4 @@
+from .tasks import send_verification_email_task
 from django.utils import timezone
 import uuid
 from .models import CustomUser, EmailVerification
@@ -134,9 +135,7 @@ def user_register(request):
 #     If you didn’t receive or your code expired, you can request a new one.
 #     """
 #     send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email])
-    
-from .tasks import send_verification_email_task
-from django.urls import reverse
+
 
 def send_verification_email(request, user):
     verification = user.verification
@@ -164,6 +163,8 @@ def send_verification_email(request, user):
 # -------------------
 # Verify with Link
 # -------------------
+
+
 def activate_with_link(request, token):
     try:
         verification = EmailVerification.objects.get(token=token)
@@ -238,13 +239,16 @@ def resend_verification(request):
             return redirect("activate_with_otp")
 
         except CustomUser.DoesNotExist:
-            messages.error(request, "No account found with this email.")
+            messages.error(request, f"{user.emai}No account found with this email.")
             return redirect("resend_verification")
+    
 
     return render(request, "app_account/verification/resend_verification.html")
 
 
 # ----------------------------User Login-------------------------------
+
+'''
 @logout_required
 def user_login(request):
     if request.user.is_authenticated:
@@ -270,6 +274,30 @@ def user_login(request):
     }
     return render(request, "app_account/login.html", context)
 
+
+'''
+@logout_required
+def user_login(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get("email")
+            password = form.cleaned_data.get("password")
+            user = authenticate(email=email, password=password)
+
+            if user:
+                login(request, user)
+                # এখানে success message দিলে user বুঝবে login complete,
+                # কিন্তু middleware সাথে সাথেই redirect করবে resend_otp এ
+                # তাই চাইলে message warning/success না-ও দিতে পারো
+                return redirect("home")
+    else:
+        form = LoginForm()
+
+    return render(request, "app_account/login.html", {"form": form})
 
 @login_required
 def user_logout(request):

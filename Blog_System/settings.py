@@ -65,6 +65,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     
     'app_home.middlewares.UnderConstructionMiddleware',  # Custom middleware
+    "app_account.middlewares.ResendMailMiddleware",
     
 ]
 
