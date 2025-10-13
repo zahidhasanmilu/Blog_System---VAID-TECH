@@ -80,7 +80,7 @@ class ResendMailMiddleware:
                         messages.info(request, f"{user.email} is not active. Please Check and verify your email.")
                         return redirect('resend_verification')
             except User.DoesNotExist:
-                pass  # ইউজার না থাকলে কিছু করব না
+                pass
 
         response = self.get_response(request)
         return response

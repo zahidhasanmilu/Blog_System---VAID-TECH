@@ -239,9 +239,8 @@ def resend_verification(request):
             return redirect("activate_with_otp")
 
         except CustomUser.DoesNotExist:
-            messages.error(request, f"{user.emai}No account found with this email.")
+            messages.error(request, f"No account found with this email: {email}")
             return redirect("resend_verification")
-    
 
     return render(request, "app_account/verification/resend_verification.html")
 
