@@ -6,7 +6,8 @@ from django.views.generic import ListView, DetailView
 from app_home.forms import BlogForm
 # models
 from .models import Blog, Category, Tag, BlogImage
-from django.db.models import Q
+from django.db.models import Q, Count
+
 from django.core.paginator import Paginator
 
 
@@ -24,6 +25,14 @@ class HomeView(ListView):
     # Optional: use prefetch_related to optimize queries
     def get_queryset(self):
         return Blog.objects.prefetch_related('tags', 'blog_images').all()
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Aggregate: total number of blogs
+        total_blogs = Blog.objects.aggregate(total=Count('id'))
+        context['total_blogs'] = total_blogs['total']  # dictionary থেকে value
+        return context
+
 
 
 class BlogDetailView(DetailView):
@@ -35,7 +44,8 @@ class BlogDetailView(DetailView):
 
     def get_queryset(self):
         return Blog.objects.prefetch_related('tags', 'blog_images').all()
-
+    
+    
 # class Tag_posts(ListView):
 #     model = Blog
 #     template_name = 'tag_posts.html'  # specify your template

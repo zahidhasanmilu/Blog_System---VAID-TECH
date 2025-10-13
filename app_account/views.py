@@ -28,6 +28,7 @@ from .forms.register import RegisterForm
 from .models import Profile
 
 # User
+from django.db.models import Count
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -37,6 +38,9 @@ User = get_user_model()
 def User_ProfileView(request, username):
     profile_user = get_object_or_404(Profile, user__username=username)
     user_blogs = profile_user.user.user_blogs.all()
+
+    users_blog_count = User.objects.filter(id=profile_user.user.id).annotate(
+        blog_count=Count('user_blogs')).first().blog_count
 
     form = None
     if request.user == profile_user.user:
@@ -60,7 +64,9 @@ def User_ProfileView(request, username):
     context = {
         'profile_user': profile_user,
         'user_blogs': user_blogs,
-        'form': form
+        'form': form,
+
+        'users_blog_count': users_blog_count,
     }
     return render(request, 'app_account/profile.html', context)
 
@@ -239,7 +245,8 @@ def resend_verification(request):
             return redirect("activate_with_otp")
 
         except CustomUser.DoesNotExist:
-            messages.error(request, f"No account found with this email: {email}")
+            messages.error(
+                request, f"No account found with this email: {email}")
             return redirect("resend_verification")
 
     return render(request, "app_account/verification/resend_verification.html")
@@ -275,6 +282,8 @@ def user_login(request):
 
 
 '''
+
+
 @logout_required
 def user_login(request):
     if request.user.is_authenticated:
@@ -297,6 +306,7 @@ def user_login(request):
         form = LoginForm()
 
     return render(request, "app_account/login.html", {"form": form})
+
 
 @login_required
 def user_logout(request):
