@@ -31,7 +31,7 @@ def generate_unique_slug(model, base_slug):
 # -----------------------
 
 class Category(models.Model):
-    title = models.CharField(max_length=50, unique=True)
+    title = models.CharField(max_length=50, unique=True, db_index=True)
     slug = models.SlugField(unique=True, blank=True, null=True, max_length=300)
 
     def save(self, *args, **kwargs):
@@ -47,7 +47,7 @@ class Category(models.Model):
 
 
 class Tag(models.Model):
-    title = models.CharField(max_length=50, unique=True)
+    title = models.CharField(max_length=50, unique=True, db_index=True)
     slug = models.SlugField(unique=True, blank=True, null=True, max_length=300)
 
     def save(self, *args, **kwargs):
@@ -87,7 +87,7 @@ class Blog(models.Model):
 
     class Meta:
         ordering = ['-created_date']
-        
+        indexes = [models.Index(fields=['title','created_date'])]
         
     def get_absolute_url(self):
         return reverse('blog-detail', kwargs={'slug': self.slug})

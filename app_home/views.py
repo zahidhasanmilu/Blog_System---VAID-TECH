@@ -94,6 +94,7 @@ class SearchResultsView(ListView):
 
     def get_queryset(self):
         query = self.request.GET.get('q', '')
+        
         if query:
             return Blog.objects.filter(
                 Q(title__icontains=query) |
