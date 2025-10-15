@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     'ckeditor_uploader',  
      'crispy_forms',
     'crispy_bootstrap4',
+    
+    'rest_framework',                # Django REST framework
 ]
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 CRISPY_TEMPLATE_PACK = "bootstrap4"
@@ -46,6 +48,7 @@ CUSTOM_APPS = [
     'app_account.apps.AppAccountConfig',   # Custom user & profile app
     'app_home',                            # Blog/homepage app
     'django_cleanup.apps.CleanupConfig',   # Automatically delete old files
+    'app_home_api.apps.AppHomeApiConfig',  # API for the blog app
 ]
 
 # Combine default and custom apps

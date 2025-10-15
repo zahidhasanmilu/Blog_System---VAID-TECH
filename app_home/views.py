@@ -1,3 +1,4 @@
+import time
 from django.shortcuts import redirect, render, get_object_or_404
 # Login MIXIN
 from django.contrib.auth.decorators import login_required
@@ -78,8 +79,15 @@ class CategoryBlogsView(ListView):
 
     def get_queryset(self):
         # slug দিয়ে Category বের করো
+        start = time.time()
+        
         self.category = get_object_or_404(Category, slug=self.kwargs['slug'])
-        return self.category.category_blogs.all()
+        # return self.category.category_blogs.all()
+        queryset = self.category.category_blogs.all()
+        list(queryset)  # queryset evaluate
+        duration = time.time() - start
+        print(f"📊 Category query time: {duration:.4f} seconds")
+        return queryset 
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

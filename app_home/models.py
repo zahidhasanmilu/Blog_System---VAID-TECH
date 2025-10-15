@@ -75,7 +75,11 @@ class Blog(models.Model):
     tags = models.ManyToManyField(Tag, related_name='tag_blogs')
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
-
+    
+    class Meta:
+        ordering = ['-created_date']
+        indexes = [models.Index(fields=['title','created_date'])]
+        
     def save(self, *args, **kwargs):
         base_slug = slugify(self.title)
         if not self.slug:
