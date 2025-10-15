@@ -10,6 +10,7 @@ urlpatterns = [
     path('', include('app_home.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),  
     path('account/', include('app_account.urls')),
+    path('api/', include('app_home_api.urls')),  # API endpoints
 ]
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
