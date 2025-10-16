@@ -1,10 +1,50 @@
 from rest_framework import serializers
 from app_home.models import Blog, Category, Tag
 
+
+#-------------------------------------------------------------------------------
+#----------------------BLOG SERIALIZER------------------------------------------------
+#-------------------------------------------------------------------------------
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
+class BlogSerializer(serializers.ModelSerializer):
+    # Readable name
+    category_name = serializers.StringRelatedField(source='category', read_only=True)
+    tag_names = serializers.StringRelatedField(source='tags', many=True, read_only=True)
+    author = serializers.StringRelatedField(read_only=True)
+
+    # Writable IDs
+    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
+    tags = serializers.PrimaryKeyRelatedField(many=True, queryset=Tag.objects.all())
+
+    class Meta:
+        model = Blog
+        fields = [
+            'id', 'title', 'slug', 'content',
+            'author', 'category', 'category_name',
+            'tags', 'tag_names',
+            'created_date', 'updated_date'
+        ]
+        read_only_fields = ['id', 'slug', 'author', 'created_date', 'updated_date']
+
+    # Validation methods
+    def validate_title(self, value):
+        if len(value) < 5:
+            raise serializers.ValidationError("Title must be at least 5 characters long.")
+        return value
+
+    def validate_content(self, value):
+        if len(value) < 20:
+            raise serializers.ValidationError("Content must be at least 20 characters long.")
+        return value
+    
+
 class CategorySerializer(serializers.ModelSerializer):
+    category_blogs = BlogSerializer(many=True, read_only=True)
     class Meta:
         model = Category
-        fields = ['id', 'title', 'slug']
+        fields = ['id', 'title', 'slug', 'category_blogs']
         read_only_fields = ['id', 'slug']
         
 # class TagSerializer(serializers.ModelSerializer):
@@ -27,27 +67,3 @@ class TagSerializer(serializers.Serializer):
         instance.slug = validated_data.get('slug', instance.slug)
         instance.save()
         return instance
-
-#-------------------------------------------------------------------------------
-#----------------------BLOG SERIALIZER------------------------------------------------
-#-------------------------------------------------------------------------------
-
-class BlogSerializer(serializers.ModelSerializer):
-    category = serializers.StringRelatedField()   # Category model-এর __str__() return হবে
-    author = serializers.StringRelatedField()     # Author model-এর __str__() return হবে
-    tags = serializers.StringRelatedField(many=True)  # প্রতিটা tag-এর নাম দেখাবে
-    class Meta:
-        model = Blog
-        fields = ['id', 'title', 'slug', 'content', 'author', 'category', 'tags', 'created_date', 'created_date']
-        read_only_fields = ['id', 'slug', 'created_date', 'created_date']
-        
-    def validate_title(self, value):
-        if len(value) < 5:
-            raise serializers.ValidationError("Title must be at least 5 characters long.")
-        return value
-    
-    def validate_content(self, value):
-        if len(value) < 20:
-            raise serializers.ValidationError("Content must be at least 20 characters long.")
-        return value
-    

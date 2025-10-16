@@ -131,5 +131,11 @@ class TagRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 
 
 class BlogListCreateAPIView(ListCreateAPIView):
-    queryset = Blog.objects.all()
+    queryset = Blog.objects.all().select_related('author', 'category').prefetch_related('tags')
     serializer_class = BlogSerializer
+    
+    
+    def perform_create(self, serializer):
+        # request.user কে author হিসেবে set করো
+        serializer.save(author=self.request.user)
+        
