@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',       # Session framework
     'django.contrib.messages',       # Messaging framework
     'django.contrib.staticfiles',    # Static file handling
+    'django_extensions',
     'ckeditor',                      # CKEditor for rich text editing
     'ckeditor_uploader',  
      'crispy_forms',

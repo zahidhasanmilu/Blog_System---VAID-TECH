@@ -35,8 +35,10 @@ class Category(models.Model):
     slug = models.SlugField(unique=True, blank=True, null=True, max_length=300)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
-        return super().save(*args, **kwargs)
+        if not self.slug:  # only generate slug if it doesn't exist
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
 
     def __str__(self):
         return self.title
@@ -60,9 +62,7 @@ class Tag(models.Model):
 
 class Blog(models.Model):
     author = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        related_name='user_blogs',
-        on_delete=models.CASCADE
+        settings.AUTH_USER_MODEL, related_name='user_blogs', on_delete=models.CASCADE
     )
     title = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(unique=True, blank=True, null=True, max_length=300)
@@ -80,11 +80,20 @@ class Blog(models.Model):
         ordering = ['-created_date']
         indexes = [models.Index(fields=['title','created_date'])]
         
+    # def save(self, *args, **kwargs):
+    #     base_slug = slugify(self.title)
+    #     if not self.slug:
+    #         self.slug = generate_unique_slug(Blog, base_slug)
+    #     return super().save(*args, **kwargs)
+
     def save(self, *args, **kwargs):
         base_slug = slugify(self.title)
-        if not self.slug:
+
+        if not self.slug or (self.pk and Blog.objects.get(pk=self.pk).title != self.title):
+            # generate new slug if new object OR title has changed
             self.slug = generate_unique_slug(Blog, base_slug)
-        return super().save(*args, **kwargs)
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
