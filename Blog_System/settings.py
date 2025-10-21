@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'crispy_bootstrap4',
     
     'rest_framework',                # Django REST framework
+        'rest_framework.authtoken',
+
 ]
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 CRISPY_TEMPLATE_PACK = "bootstrap4"
@@ -179,4 +181,16 @@ CELERY_BROKER_URL = 'redis://localhost:6379/0'          # Task Queue
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'      # Task Result
 CELERY_TIMEZONE = 'Asia/Dhaka'
 
+# Django REST Framework Configuration
+# https://www.django-rest-framework.org/api-guide/settings/
+#Global permission settings
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication'
+    ]
 
+}

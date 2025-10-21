@@ -30,5 +30,5 @@ class BlogViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly] 
     
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+        serializer.save(author = self.request.user)
 
