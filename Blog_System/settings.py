@@ -181,17 +181,29 @@ CELERY_TIMEZONE = 'Asia/Dhaka'
 # https://www.django-rest-framework.org/api-guide/settings/
 # Global permission settings
 REST_FRAMEWORK = {
+    
+    # Global authentication settings
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',   # Browser login/logout
+        'rest_framework.authentication.BasicAuthentication',     # Postman simple auth
+        'rest_framework.authentication.TokenAuthentication',     # Token based API
+    ],
+    
+    # Global permission settings
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
-
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication'
-    ],
+    
+    # Global filter settings
     'DEFAULT_FILTER_BACKENDS': [
-        'django_filters.rest_framework.DjangoFilterBackend'
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+        
     ],
     
+    'ORDERING_PARAM': 'ordered_by',  # Default ordering parameter
+    # Global pagination settings
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 2  # প্রতি পৃষ্ঠায় আইটেমের সংখ্যা
 

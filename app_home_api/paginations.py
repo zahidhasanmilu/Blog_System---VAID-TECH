@@ -8,6 +8,14 @@ class CustomPagination(PageNumberPagination):
     max_page_size = 50
 
     def get_paginated_response(self, data):
+        # যদি কোন রেজাল্ট না থাকে
+        if not data:
+            return Response({
+                'message': 'No results found.',
+                'results': []
+            })
+
+        # অন্যথায় normal pagination response
         return Response({
             'total_items': self.page.paginator.count,
             'total_pages': self.page.paginator.num_pages,
