@@ -42,7 +42,7 @@ class BlogViewSet(viewsets.ModelViewSet):
     search_fields = ['^title']
     
     ordering_fields = ['created_date', 'title']
-    permission_classes = [IsAuthenticated] 
+    permission_classes = [IsAuthenticatedOrReadOnly] 
     pagination_class = CustomPagination
     
     def perform_create(self, serializer):

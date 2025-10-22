@@ -194,6 +194,16 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
     
+    # Global throttle settings
+    'DEFAULT_THROTTLE_CLASSES': [
+            'rest_framework.throttling.AnonRateThrottle',    # Throttle for anonymous users
+            'rest_framework.throttling.UserRateThrottle'     # Throttle for authenticated users
+        ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '5/hour',   # Anonymous user 5 requests/hour
+        'user': '10/minute' # Authenticated user 10 requests/minute
+    },
+    
     # Global filter settings
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend',
