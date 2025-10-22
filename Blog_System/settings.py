@@ -18,8 +18,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 # DEBUG = False
-# ALLOWED_HOSTS = ['*'] 
-
+# ALLOWED_HOSTS = ['*']
 
 
 # -----------------------------
@@ -34,12 +33,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',    # Static file handling
     'django_extensions',
     'ckeditor',                      # CKEditor for rich text editing
-    'ckeditor_uploader',  
-     'crispy_forms',
+    'ckeditor_uploader',
+    'crispy_forms',
     'crispy_bootstrap4',
-    
+
     'rest_framework',                # Django REST framework
-        'rest_framework.authtoken',
+    'rest_framework.authtoken',
+    'django_filters',
 
 ]
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
@@ -60,7 +60,6 @@ INSTALLED_APPS += CUSTOM_APPS
 AUTH_USER_MODEL = 'app_account.CustomUser'
 
 
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -69,10 +68,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
+
     'app_home.middlewares.UnderConstructionMiddleware',  # Custom middleware
     "app_account.middlewares.ResendMailMiddleware",
-    
+
 ]
 
 ROOT_URLCONF = 'Blog_System.urls'
@@ -87,7 +86,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                
+
                 # my custom context processors
                 'app_home.context_processors.get_all_categories',
                 'app_home.context_processors.get_all_tags',
@@ -142,7 +141,6 @@ USE_I18N = True
 USE_TZ = True
 
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 STATIC_URL = '/static/'
@@ -151,8 +149,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
-MEDIA_URL='/media/'
-MEDIA_ROOT=os.path.join(BASE_DIR ,'media')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Default primary key field type
@@ -161,13 +159,11 @@ MEDIA_ROOT=os.path.join(BASE_DIR ,'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-
 # CKEditor upload path
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
 
-
-#-----------------Email Settings-----------------
+# -----------------Email Settings-----------------
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
@@ -183,14 +179,21 @@ CELERY_TIMEZONE = 'Asia/Dhaka'
 
 # Django REST Framework Configuration
 # https://www.django-rest-framework.org/api-guide/settings/
-#Global permission settings
+# Global permission settings
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
-    
+
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication'
-    ]
+    ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ],
+    
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 2  # প্রতি পৃষ্ঠায় আইটেমের সংখ্যা
 
+    
 }

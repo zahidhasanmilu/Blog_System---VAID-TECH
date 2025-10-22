@@ -13,7 +13,11 @@ from .serializers import CategorySerializer, TagSerializer, BlogSerializer
 
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
 
+#pagination
+from .paginations import CustomPagination
 
 # Create your views here.
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -27,7 +31,11 @@ class TagViewSet(viewsets.ModelViewSet):
 class BlogViewSet(viewsets.ModelViewSet):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = ['category', 'tags']
+    search_fields = ['title']
     permission_classes = [IsAuthenticatedOrReadOnly] 
+    pagination_class = CustomPagination
     
     def perform_create(self, serializer):
         serializer.save(author = self.request.user)
