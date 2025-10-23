@@ -3,6 +3,8 @@ from . import views
 from rest_framework.routers import DefaultRouter
 
 
+
+
 router = DefaultRouter()
 router.register('categorie', views.CategoryViewSet, basename='category')
 router.register('tag', views.TagViewSet, basename='tag')

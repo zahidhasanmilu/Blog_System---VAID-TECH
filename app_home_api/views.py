@@ -16,35 +16,39 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticate
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 
-#pagination
+# pagination
 from .paginations import CustomPagination
-#filters
+# filters
 from .filters import BlogFilter
 
+# ----------------------------------------------------------------------------------------------------------
 # Create your views here.
+
+
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
 
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
 
+
 class BlogViewSet(viewsets.ModelViewSet):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
     # filter_backends = [DjangoFilterBackend, SearchFilter] # Add not globally configured
-  
+
     # filterset_fields = ['category', 'tags', 'title']
     filterset_class = BlogFilter
-    
+
     # search_fields = ['title']
     search_fields = ['^title']
-    
-    ordering_fields = ['created_date', 'title']
-    permission_classes = [IsAuthenticatedOrReadOnly] 
-    pagination_class = CustomPagination
-    
-    def perform_create(self, serializer):
-        serializer.save(author = self.request.user)
 
+    ordering_fields = ['created_date', 'title']
+    permission_classes = [IsAuthenticated]
+    pagination_class = CustomPagination
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
