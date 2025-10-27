@@ -6,9 +6,9 @@ from rest_framework.routers import DefaultRouter
 
 
 router = DefaultRouter()
-router.register('categorie', views.CategoryViewSet, basename='category')
-router.register('tag', views.TagViewSet, basename='tag')
-router.register('blog', views.BlogViewSet, basename='blog')
+router.register('categorie', views.CategoryViewSet, basename='api_categories')
+router.register('tag', views.TagViewSet, basename='api_tag')
+router.register('blog', views.BlogViewSet, basename='api_blog')
 
 
 urlpatterns = [

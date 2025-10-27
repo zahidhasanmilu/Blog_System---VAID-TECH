@@ -51,7 +51,7 @@ tag - {{tag.title}} | Blog System
                         <!-- truncated content -->
                         <p>{{ blog.content|truncatewords:40|safe }}</p>
 
-                        <a href="{% url 'blog-detail' blog.slug %}" class="btn btn-outline-primary">
+                        <a href="{{ blog.get_absolute_url }}" class="btn btn-outline-primary">
                             Continue Reading
                         </a>
                     </div>

@@ -17,7 +17,7 @@ SECRET_KEY = 'django-insecure-r3nw=@^cx@15s8*png_#kb(saqi2i=lop9)nbc^f#z6-243#mb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['hypnoidal-raeann-shaggily.ngrok-free.dev']
 # DEBUG = False
 # ALLOWED_HOSTS = ['*']
 
