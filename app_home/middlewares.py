@@ -25,13 +25,13 @@ class UnderConstructionMiddleware:
         self.get_response = get_response
     
     def __call__(self, request):
-        # এখানে চেক করা হবে কোন path under construction
+        #  path under construction
         under_construction_paths = ['/tag/inheritance/', ]  # example paths
 
         if request.path in under_construction_paths:
             return render(request, 'underConstruction.html')
 
-        # অন্য request normal response পাবে
+        # other request normal response
         response = self.get_response(request)
         return response
     

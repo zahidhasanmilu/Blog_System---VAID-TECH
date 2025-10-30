@@ -9,7 +9,7 @@ urlpatterns = [
     path('search-results/', SearchResultsView.as_view(), name='search-results'),
     # path('search/', blog_search, name='blog_search'), 
     path('ajax/search/', blog_search_ajax, name='blog_search_ajax'),
-# নতুন AJAX search
+    #  AJAX search
     path('update/<id>/', update_blog, name='update_blog'),
     path('delete/<int:id>/', delete_blog, name='delete_blog')
 ]

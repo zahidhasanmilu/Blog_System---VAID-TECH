@@ -7,7 +7,7 @@ from app_home.models import Category, Tag, Blog, BlogImage
 
 import uuid
 
-User = get_user_model()
+User = get_user_model
 
 
 # -----------------------

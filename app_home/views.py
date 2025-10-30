@@ -40,8 +40,8 @@ class BlogDetailView(DetailView):
     model = Blog
     template_name = 'blog/blog.html'  # specify your template
     context_object_name = 'blog'  # the context variable in template
-    slug_field = 'slug'        # model এর কোন field দিয়ে খুঁজবে
-    slug_url_kwarg = 'slug'    # URL এর keyword argument
+    slug_field = 'slug'        # use slug field
+    slug_url_kwarg = 'slug'    #  keyword argument
 
     def get_queryset(self):
         return Blog.objects.prefetch_related('tags', 'blog_images').all()
@@ -78,7 +78,7 @@ class CategoryBlogsView(ListView):
     context_object_name = 'category_blogs'
 
     def get_queryset(self):
-        # slug দিয়ে Category বের করো
+        # filter category by slug
         start = time.time()
         
         self.category = get_object_or_404(Category, slug=self.kwargs['slug'])
