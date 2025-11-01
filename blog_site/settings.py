@@ -189,8 +189,8 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         # 'rest_framework.authentication.SessionAuthentication',   # Browser login/logout
         # 'rest_framework.authentication.BasicAuthentication',     # Postman simple auth
-        # 'rest_framework.authentication.TokenAuthentication',     # Token based API
-        'rest_framework_simplejwt.authentication.JWTAuthentication',  # JWT based API
+        'rest_framework.authentication.TokenAuthentication',     # Token based API
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',  # JWT based API
     ],
 
     # Global permission settings
