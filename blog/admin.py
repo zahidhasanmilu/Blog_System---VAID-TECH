@@ -5,9 +5,11 @@ from .models import Category, Tag, Blog, BlogImage
 # -----------------------
 # Inline for Blog Images
 # -----------------------
-class BlogImageInline(admin.TabularInline):   # চাইলে admin.StackedInline ব্যবহার করতে পারো
+class BlogImageInline(
+    admin.TabularInline
+):  # চাইলে admin.StackedInline ব্যবহার করতে পারো
     model = BlogImage
-    extra = 1   # নতুন Blog বানানোর সময় default 1টা image field দেখাবে
+    extra = 1  # নতুন Blog বানানোর সময় default 1টা image field দেখাবে
 
 
 # -----------------------
@@ -15,8 +17,8 @@ class BlogImageInline(admin.TabularInline):   # চাইলে admin.StackedInl
 # -----------------------
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug')
-    readonly_fields = ('slug',)
+    list_display = ("title", "slug")
+    readonly_fields = ("slug",)
 
 
 # -----------------------
@@ -24,8 +26,8 @@ class CategoryAdmin(admin.ModelAdmin):
 # -----------------------
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug')
-    readonly_fields = ('slug',)
+    list_display = ("title", "slug")
+    readonly_fields = ("slug",)
 
 
 # -----------------------
@@ -33,12 +35,12 @@ class TagAdmin(admin.ModelAdmin):
 # -----------------------
 @admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author', 'category', 'created_date', 'slug')
-    search_fields = ('title', 'author__username')
-    list_filter = ('category', 'tags', 'created_date')
-    readonly_fields = ('slug',)
-    filter_horizontal = ('tags',)
-    inlines = [BlogImageInline]   # ✅ Blog এর সাথে BlogImage inline
+    list_display = ("title", "author", "category", "created_date", "slug")
+    search_fields = ("title", "author__username")
+    list_filter = ("category", "tags", "created_date")
+    readonly_fields = ("slug",)
+    filter_horizontal = ("tags",)
+    inlines = [BlogImageInline]  # ✅ Blog এর সাথে BlogImage inline
 
 
 # -----------------------
@@ -46,5 +48,5 @@ class BlogAdmin(admin.ModelAdmin):
 # -----------------------
 @admin.register(BlogImage)
 class BlogImageAdmin(admin.ModelAdmin):
-    list_display = ('blog', 'image')
-    search_fields = ('blog__title',)
+    list_display = ("blog", "image")
+    search_fields = ("blog__title",)

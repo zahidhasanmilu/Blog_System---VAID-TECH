@@ -7,23 +7,25 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blog', '0001_initial'),
+        ("blog", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='category',
-            name='title',
+            model_name="category",
+            name="title",
             field=models.CharField(db_index=True, max_length=50, unique=True),
         ),
         migrations.AlterField(
-            model_name='tag',
-            name='title',
+            model_name="tag",
+            name="title",
             field=models.CharField(db_index=True, max_length=50, unique=True),
         ),
         migrations.AddIndex(
-            model_name='blog',
-            index=models.Index(fields=['title', 'created_date'], name='blog_bl_title_a5d2ea_idx'),
+            model_name="blog",
+            index=models.Index(
+                fields=["title", "created_date"], name="blog_bl_title_a5d2ea_idx"
+            ),
         ),
     ]

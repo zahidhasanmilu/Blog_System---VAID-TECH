@@ -6,13 +6,13 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blog', '0004_alter_category_title'),
+        ("blog", "0004_alter_category_title"),
     ]
 
     operations = [
         migrations.RenameIndex(
-            model_name='blog',
-            new_name='blog_blog_title_9e7669_idx',
-            old_name='blog_bl_title_a5d2ea_idx',
+            model_name="blog",
+            new_name="blog_blog_title_9e7669_idx",
+            old_name="blog_bl_title_a5d2ea_idx",
         ),
     ]

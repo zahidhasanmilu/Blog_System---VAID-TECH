@@ -31,6 +31,7 @@ class CategoryModelTest(TestCase):
 
     def test_unique_title_constraint(self):
         from django.db.utils import IntegrityError
+
         with self.assertRaises(IntegrityError):
             Category.objects.create(title="Django Testing")
 
@@ -56,6 +57,7 @@ class TagModelTest(TestCase):
 
     def test_unique_title_constraint(self):
         from django.db.utils import IntegrityError
+
         with self.assertRaises(IntegrityError):
             Tag.objects.create(title="Python")
 
@@ -66,7 +68,9 @@ class TagModelTest(TestCase):
 class BlogModelTest(TestCase):
 
     def setUp(self):
-        self.user = User.objects.create_user(username="zahid", email="zahidhasan.miluu@gmail.com", password="pass123")
+        self.user = User.objects.create_user(
+            username="zahid", email="zahidhasan.miluu@gmail.com", password="pass123"
+        )
         self.category = Category.objects.create(title="Programming")
         self.tag1 = Tag.objects.create(title="Django")
         self.tag2 = Tag.objects.create(title="Python")
@@ -74,7 +78,7 @@ class BlogModelTest(TestCase):
             author=self.user,
             title="My First Blog",
             content="RichText content here.",
-            category=self.category
+            category=self.category,
         )
         self.blog.tags.add(self.tag1, self.tag2)
 
@@ -109,29 +113,33 @@ class BlogModelTest(TestCase):
 class BlogImageModelTest(TestCase):
 
     def setUp(self):
-        self.user = User.objects.create_user(username="zahid",email = 'zahidhasan.miluu@gmail.com', password="pass123")
+        self.user = User.objects.create_user(
+            username="zahid", email="zahidhasan.miluu@gmail.com", password="pass123"
+        )
         self.category = Category.objects.create(title="Programming")
         self.blog = Blog.objects.create(
             author=self.user,
             title="My Blog with Image",
             content="Some content",
-            category=self.category
+            category=self.category,
         )
         # Create a dummy image file
         self.image_file = SimpleUploadedFile(
-            name='test_image.png',
-            content=b'\x00\x01\x02',  # dummy bytes
-            content_type='image/png'
+            name="test_image.png",
+            content=b"\x00\x01\x02",  # dummy bytes
+            content_type="image/png",
         )
-        self.blog_image = BlogImage.objects.create(blog=self.blog, image=self.image_file)
+        self.blog_image = BlogImage.objects.create(
+            blog=self.blog, image=self.image_file
+        )
 
     def test_blogimage_creation(self):
         self.assertEqual(str(self.blog_image), self.blog.title)
         # get just the filename, ignore folder
         filename = os.path.basename(self.blog_image.image.name)
-        self.assertTrue(filename.startswith('test_image_'))
-        self.assertTrue(len(filename) > len('test_image.png'))
+        self.assertTrue(filename.startswith("test_image_"))
+        self.assertTrue(len(filename) > len("test_image.png"))
 
     def test_image_filename_sanitization(self):
         # Check that UUID appended to filename
-        self.assertIn('_', self.blog_image.image.name)
+        self.assertIn("_", self.blog_image.image.name)

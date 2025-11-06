@@ -10,14 +10,14 @@ class CharInFilter(django_filters.BaseInFilter, django_filters.CharFilter):
 
 class BlogFilter(django_filters.FilterSet):
     # title contains
-    title = django_filters.CharFilter(field_name='title', lookup_expr='icontains')
+    title = django_filters.CharFilter(field_name="title", lookup_expr="icontains")
 
     # একাধিক category title দিয়ে filter (comma separated)
-    category = CharInFilter(field_name='category__title', lookup_expr='in')
+    category = CharInFilter(field_name="category__title", lookup_expr="in")
 
     # একাধিক tag title দিয়ে filter (comma separated)
-    tags = CharInFilter(field_name='tags__title', lookup_expr='in')
+    tags = CharInFilter(field_name="tags__title", lookup_expr="in")
 
     class Meta:
         model = Blog
-        fields = ['title', 'category', 'tags']
+        fields = ["title", "category", "tags"]

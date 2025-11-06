@@ -50,22 +50,24 @@ from django.conf import settings
 
 User = get_user_model()
 
+
 class ResendMailMiddleware:
     """
     Middleware:
     - Database এ ইউজার আছে কিনা চেক করে
     - যদি is_active=False হয় → resend_verification view এ রিডাইরেক্ট করে
     """
+
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
         # শুধু POST বা GET request থেকে username/email ধরব
         username_or_email = (
-            request.POST.get('email') or
-            request.POST.get('username') or
-            request.GET.get('email') or
-            request.GET.get('username')
+            request.POST.get("email")
+            or request.POST.get("username")
+            or request.GET.get("email")
+            or request.GET.get("username")
         )
 
         if username_or_email:
@@ -74,11 +76,14 @@ class ResendMailMiddleware:
                 # যদি ইউজার inactive হয়
                 if not user.is_active:
                     allowed_paths = [
-                        reverse('resend_verification'),
+                        reverse("resend_verification"),
                     ]
                     if request.path not in allowed_paths:
-                        messages.info(request, f"{user.email} is not active. Please Check and verify your email.")
-                        return redirect('resend_verification')
+                        messages.info(
+                            request,
+                            f"{user.email} is not active. Please Check and verify your email.",
+                        )
+                        return redirect("resend_verification")
             except User.DoesNotExist:
                 pass
 

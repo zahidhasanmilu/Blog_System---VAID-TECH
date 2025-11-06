@@ -5,14 +5,16 @@ from .models import Profile
 
 User = get_user_model()
 
+
 # User তৈরি হলে Profile auto-create
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
+
 # User save হলে Profile save করা, safe way
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
-    if hasattr(instance, 'profile'):
+    if hasattr(instance, "profile"):
         instance.profile.save()

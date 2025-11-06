@@ -1,5 +1,6 @@
-from django.shortcuts import get_object_or_404, redirect,render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import get_user_model
+
 User = get_user_model()
 
 
@@ -19,19 +20,21 @@ User = get_user_model()
 #         # the view is called.
 
 #         return response
-    
+
+
 class UnderConstructionMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
-    
+
     def __call__(self, request):
         #  path under construction
-        under_construction_paths = ['/tag/inheritance/', ]  # example paths
+        under_construction_paths = [
+            "/tag/inheritance/",
+        ]  # example paths
 
         if request.path in under_construction_paths:
-            return render(request, 'underConstruction.html')
+            return render(request, "underConstruction.html")
 
         # other request normal response
         response = self.get_response(request)
         return response
-    

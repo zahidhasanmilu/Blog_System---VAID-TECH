@@ -9,18 +9,24 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app_account', '0001_initial'),
+        ("app_account", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='profile',
-            name='profile_picture',
-            field=models.ImageField(blank=True, null=True, upload_to=account.models.profile_directory_path),
+            model_name="profile",
+            name="profile_picture",
+            field=models.ImageField(
+                blank=True, null=True, upload_to=account.models.profile_directory_path
+            ),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='user',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='user_profile', to=settings.AUTH_USER_MODEL),
+            model_name="profile",
+            name="user",
+            field=models.OneToOneField(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="user_profile",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]

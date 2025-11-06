@@ -3,21 +3,36 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework import status
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, GenericAPIView
+from rest_framework.generics import (
+    ListCreateAPIView,
+    RetrieveUpdateDestroyAPIView,
+    GenericAPIView,
+)
 
-from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin
+from rest_framework.mixins import (
+    ListModelMixin,
+    CreateModelMixin,
+    RetrieveModelMixin,
+    UpdateModelMixin,
+    DestroyModelMixin,
+)
 from rest_framework import viewsets
 
 from blog.models import Blog, Category, Tag
 from .serializers import CategorySerializer, TagSerializer, BlogSerializer
 
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, IsAdminUser
+from rest_framework.permissions import (
+    IsAuthenticatedOrReadOnly,
+    IsAuthenticated,
+    IsAdminUser,
+)
 
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 
 # pagination
 from .paginations import CustomPagination
+
 # filters
 from .filters import BlogFilter
 
@@ -44,9 +59,9 @@ class BlogViewSet(viewsets.ModelViewSet):
     filterset_class = BlogFilter
 
     # search_fields = ['title']
-    search_fields = ['^title']
+    search_fields = ["^title"]
 
-    ordering_fields = ['created_date', 'title']
+    ordering_fields = ["created_date", "title"]
     permission_classes = [IsAuthenticated]
     pagination_class = CustomPagination
 

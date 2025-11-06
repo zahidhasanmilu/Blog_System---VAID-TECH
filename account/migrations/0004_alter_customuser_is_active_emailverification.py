@@ -9,24 +9,39 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app_account', '0003_profile_date_of_birth_alter_profile_profile_picture'),
+        ("app_account", "0003_profile_date_of_birth_alter_profile_profile_picture"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='customuser',
-            name='is_active',
+            model_name="customuser",
+            name="is_active",
             field=models.BooleanField(default=False),
         ),
         migrations.CreateModel(
-            name='EmailVerification',
+            name="EmailVerification",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('token', models.UUIDField(default=uuid.uuid4, editable=False)),
-                ('otp', models.CharField(blank=True, max_length=6, null=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('is_verified', models.BooleanField(default=False)),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='verification', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("token", models.UUIDField(default=uuid.uuid4, editable=False)),
+                ("otp", models.CharField(blank=True, max_length=6, null=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("is_verified", models.BooleanField(default=False)),
+                (
+                    "user",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="verification",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

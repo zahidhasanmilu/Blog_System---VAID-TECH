@@ -1,15 +1,20 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    BaseUserManager,
+    PermissionsMixin,
+)
 
 from django.utils import timezone
 from datetime import timedelta
 import os
 import os, uuid, random
 
+
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, username, password=None, **extra_fields):
         if not email:
-            raise ValueError('Email address is required')
+            raise ValueError("Email address is required")
         email = self.normalize_email(email)
         user = self.model(email=email, username=username, **extra_fields)
         user.set_password(password)
@@ -17,9 +22,9 @@ class CustomUserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, username, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('is_active', True)
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+        extra_fields.setdefault("is_active", True)
         return self.create_user(email, username, password, **extra_fields)
 
 
@@ -34,8 +39,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     objects = CustomUserManager()
 
-    USERNAME_FIELD = 'email'      # login field
-    REQUIRED_FIELDS = ['username']  # required when creating superuser
+    USERNAME_FIELD = "email"  # login field
+    REQUIRED_FIELDS = ["username"]  # required when creating superuser
 
     def __str__(self):
         return self.email
@@ -43,13 +48,19 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 def profile_directory_path(instance, filename):
     # User email ব্যবহার করে sub-folder তৈরি করবে
-    return os.path.join('user_profile', instance.user.email, filename)
+    return os.path.join("user_profile", instance.user.email, filename)
 
 
 class Profile(models.Model):
     user = models.OneToOneField(
-        CustomUser, on_delete=models.CASCADE, related_name='user_profile')
-    profile_picture = models.ImageField( upload_to=profile_directory_path, default="profile_default.png", blank=True, null=True)
+        CustomUser, on_delete=models.CASCADE, related_name="user_profile"
+    )
+    profile_picture = models.ImageField(
+        upload_to=profile_directory_path,
+        default="profile_default.png",
+        blank=True,
+        null=True,
+    )
     bio = models.TextField(blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)
     address = models.CharField(max_length=255, blank=True, null=True)
@@ -60,9 +71,17 @@ class Profile(models.Model):
     @property
     def age(self):
         from datetime import date
+
         if self.date_of_birth:
             today = date.today()
-            return today.year - self.date_of_birth.year - ((today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day))
+            return (
+                today.year
+                - self.date_of_birth.year
+                - (
+                    (today.month, today.day)
+                    < (self.date_of_birth.month, self.date_of_birth.day)
+                )
+            )
         return None
 
     def get_full_name(self):
@@ -72,18 +91,20 @@ class Profile(models.Model):
         return self.user.first_name if self.user.first_name else self.user.email
 
 
-
 # Email Verification Model
 class EmailVerification(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name="verification")
+    user = models.OneToOneField(
+        CustomUser, on_delete=models.CASCADE, related_name="verification"
+    )
     token = models.UUIDField(default=uuid.uuid4, editable=False)
     otp = models.CharField(max_length=6, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_verified = models.BooleanField(default=False)
-    expires_at = models.DateTimeField(blank=True, null=True) 
+    expires_at = models.DateTimeField(blank=True, null=True)
 
     def generate_otp(self):
         import random
+
         self.otp = str(random.randint(100000, 999999))
         self.expires_at = timezone.now() + timedelta(minutes=2)  # 2 মিনিটের জন্য valid
         self.save()

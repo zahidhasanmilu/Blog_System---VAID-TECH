@@ -6,6 +6,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
+
 # --------
 
 from blog.models import Blog, BlogImage
@@ -30,6 +31,7 @@ from .models import Profile
 # User
 from django.db.models import Count
 from django.contrib.auth import get_user_model
+
 User = get_user_model()
 
 
@@ -40,52 +42,55 @@ def User_ProfileView(request, username):
     profile_user = get_object_or_404(Profile, user__username=username)
     user_blogs = profile_user.user.user_blogs.all()
 
-    users_blog_count = User.objects.filter(id=profile_user.user.id).annotate(
-        blog_count=Count('user_blogs')).first().blog_count
+    users_blog_count = (
+        User.objects.filter(id=profile_user.user.id)
+        .annotate(blog_count=Count("user_blogs"))
+        .first()
+        .blog_count
+    )
 
     form = None
     if request.user == profile_user.user:
-        if request.method == 'POST':
+        if request.method == "POST":
             form = BlogForm(request.POST, request.FILES)
             if form.is_valid():
                 blog = form.save(commit=False)
                 blog.author = request.user
-                blog.is_published=True
+                blog.is_published = True
                 blog.save()
                 form.save_m2m()  # save tags
 
                 # Handle single image extra field
-                image = form.cleaned_data.get('image')
+                image = form.cleaned_data.get("image")
                 if image:
                     BlogImage.objects.create(blog=blog, image=image)
 
-                return redirect('profile', username=username)
+                return redirect("profile", username=username)
         else:
             form = BlogForm()
 
     context = {
-        'profile_user': profile_user,
-        'user_blogs': user_blogs,
-        'form': form,
-
-        'users_blog_count': users_blog_count,
+        "profile_user": profile_user,
+        "user_blogs": user_blogs,
+        "form": form,
+        "users_blog_count": users_blog_count,
     }
-    return render(request, 'app_account/profile.html', context)
+    return render(request, "app_account/profile.html", context)
 
 
 @logout_required
 def user_register(request):
     if request.user.is_authenticated:
-        return redirect('home')
+        return redirect("home")
 
     if request.method == "POST":
         form = RegisterForm(request.POST)
         if form.is_valid():
-            first_name = form.cleaned_data.get('firstName')
-            last_name = form.cleaned_data.get('lastName')
-            username = form.cleaned_data.get('username')
-            email = form.cleaned_data.get('email')
-            password = form.cleaned_data.get('password')
+            first_name = form.cleaned_data.get("firstName")
+            last_name = form.cleaned_data.get("lastName")
+            username = form.cleaned_data.get("username")
+            email = form.cleaned_data.get("email")
+            password = form.cleaned_data.get("password")
 
             # Create the user
             user = User.objects.create_user(
@@ -93,8 +98,7 @@ def user_register(request):
                 password=password,
                 first_name=first_name,
                 last_name=last_name,
-                username=username
-
+                username=username,
             )
 
             # verification object create
@@ -105,16 +109,15 @@ def user_register(request):
             send_verification_email(request, user)
 
             messages.success(
-                request, "Registration successful! Please verify your email.")
+                request, "Registration successful! Please verify your email."
+            )
             return redirect("activate_with_otp")
             # messages.success(request, "Registration successful! You can now log in.")
             # return redirect('login')
     else:
         form = RegisterForm()
 
-    context = {
-        "form": form
-    }
+    context = {"form": form}
     return render(request, "app_account/register.html", context)
 
 
@@ -145,7 +148,6 @@ def user_register(request):
 #     send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email])
 
 
-
 def send_verification_email(request, user):
     verification = user.verification
 
@@ -168,6 +170,7 @@ def send_verification_email(request, user):
     """
     # Celery দিয়ে ব্যাকগ্রাউন্ডে ইমেইল পাঠানো
     send_verification_email_task.delay(subject, message, [user.email])
+
 
 # -------------------
 # Verify with Link
@@ -192,13 +195,14 @@ def activate_with_link(request, token):
     verification.user.save()
     verification.save()
 
-    messages.success(
-        request, "Your email has been verified! You can now log in.")
+    messages.success(request, "Your email has been verified! You can now log in.")
     return redirect("login")
+
 
 # -------------------
 # Verify with OTP
 # -------------------
+
 
 def activate_with_otp(request):
     if request.method == "POST":
@@ -206,18 +210,25 @@ def activate_with_otp(request):
         try:
             verification = EmailVerification.objects.get(otp=otp)
         except EmailVerification.DoesNotExist:
-            return render(request, "app_account/verification/verify_email.html", {"error": "Invalid OTP"})
+            return render(
+                request,
+                "app_account/verification/verify_email.html",
+                {"error": "Invalid OTP"},
+            )
 
         if verification.expires_at and verification.expires_at < timezone.now():
-            return render(request, "app_account/verification/verify_email.html", {"error": "OTP has expired. Please request a new one."})
+            return render(
+                request,
+                "app_account/verification/verify_email.html",
+                {"error": "OTP has expired. Please request a new one."},
+            )
 
         verification.is_verified = True
         verification.user.is_active = True
         verification.user.save()
         verification.save()
 
-        messages.success(
-            request, "Your email has been verified! You can now log in.")
+        messages.success(request, "Your email has been verified! You can now log in.")
         return redirect("login")
 
     return render(request, "app_account/verification/verify_email.html")
@@ -242,13 +253,11 @@ def resend_verification(request):
             verification.save()
 
             send_verification_email(request, user)
-            messages.success(
-                request, "A new verification email has been sent!")
+            messages.success(request, "A new verification email has been sent!")
             return redirect("activate_with_otp")
 
         except CustomUser.DoesNotExist:
-            messages.error(
-                request, f"No account found with this email: {email}")
+            messages.error(request, f"No account found with this email: {email}")
             return redirect("resend_verification")
 
     return render(request, "app_account/verification/resend_verification.html")
@@ -256,7 +265,7 @@ def resend_verification(request):
 
 # ----------------------------User Login-------------------------------
 
-'''
+"""
 @logout_required
 def user_login(request):
     if request.user.is_authenticated:
@@ -283,13 +292,13 @@ def user_login(request):
     return render(request, "app_account/login.html", context)
 
 
-'''
+"""
 
 
 @logout_required
 def user_login(request):
     if request.user.is_authenticated:
-        return redirect('home')
+        return redirect("home")
 
     if request.method == "POST":
         form = LoginForm(request.POST)

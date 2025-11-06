@@ -1,0 +1,21 @@
+# pyproject.toml
+
+[tool.flake8]
+# Flake8 কে 88 অক্ষরের সীমা অনুসরণ করতে বলা হলো
+max-line-length = 88 
+# E501 (লাইন দৈর্ঘ্য) এবং অন্যান্য সমস্যা যা Black স্বয়ংক্রিয়ভাবে ঠিক করে, সেগুলিকে উপেক্ষা করা হলো।
+ignore = [
+    "E501", # Flake8 এর E501 কে উপেক্ষা করা হলো
+    "W503", # Binary operator line break
+    "W504", 
+    "E203"  # Whitespace before ':'
+]
+exclude = [
+    ".git",
+    "__pycache__",
+    "migrations", # মাইগ্রেশন ফাইলগুলোতে Flake8 চালানোর দরকার নেই
+    "staticfiles",
+    "venv",
+    "media",
+    "db.sqlite3"
+]
