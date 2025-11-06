@@ -35,6 +35,7 @@ User = get_user_model()
 
 # ------------------------------------------
 
+
 def User_ProfileView(request, username):
     profile_user = get_object_or_404(Profile, user__username=username)
     user_blogs = profile_user.user.user_blogs.all()
@@ -49,6 +50,7 @@ def User_ProfileView(request, username):
             if form.is_valid():
                 blog = form.save(commit=False)
                 blog.author = request.user
+                blog.is_published=True
                 blog.save()
                 form.save_m2m()  # save tags
 
@@ -143,6 +145,7 @@ def user_register(request):
 #     send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email])
 
 
+
 def send_verification_email(request, user):
     verification = user.verification
 
@@ -196,7 +199,6 @@ def activate_with_link(request, token):
 # -------------------
 # Verify with OTP
 # -------------------
-
 
 def activate_with_otp(request):
     if request.method == "POST":

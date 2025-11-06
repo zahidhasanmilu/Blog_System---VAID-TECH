@@ -17,6 +17,8 @@ from django.core.paginator import Paginator
 def custom_404(request, exception):
     return render(request, 'error404.html', status=404)
 
+
+
 class HomeView(ListView):
     model = Blog
     template_name = 'index.html'  # specify your template

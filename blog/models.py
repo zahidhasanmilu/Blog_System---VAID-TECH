@@ -6,6 +6,10 @@ from django.utils.text import slugify
 from django.urls import reverse
 from ckeditor_uploader.fields import RichTextUploadingField
 
+# Celery task import
+from .tasks import send_new_post_notification_email
+
+
 
 # -----------------------
 # Utility Functions
@@ -73,6 +77,7 @@ class Blog(models.Model):
         on_delete=models.CASCADE
     )
     tags = models.ManyToManyField(Tag, related_name='tag_blogs')
+    is_published = models.BooleanField(default=False)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
     
@@ -87,16 +92,52 @@ class Blog(models.Model):
     #     return super().save(*args, **kwargs)
 
     def save(self, *args, **kwargs):
+        # ----------------------------------------------------
+        # 1. Initial Data for Celery Trigger and Slug Logic
+        # ----------------------------------------------------
+        
+        # Check if the instance is new (PK is None)
+        is_new = self.pk is None 
+        # Get the previous publish status before saving
+        old_is_published = False
+        
+        if not is_new:
+            try:
+                # Fetch the previous status from the database
+                old_is_published = Blog.objects.get(pk=self.pk).is_published
+            except Blog.DoesNotExist:
+                pass 
+
+        # ----------------------------------------------------
+        # 2. Slug Generation Logic
+        # ----------------------------------------------------
         base_slug = slugify(self.title)
 
         if not self.slug or (self.pk and Blog.objects.get(pk=self.pk).title != self.title):
-            # generate new slug if new object OR title has changed
+            # Generate a new slug if it's a new object OR the title has been changed
             self.slug = generate_unique_slug(Blog, base_slug)
 
-        super().save(*args, **kwargs)
+        # ----------------------------------------------------
+        # 3. Perform the main save operation first
+        # ----------------------------------------------------
+        super().save(*args, **kwargs) # Save the post to the database
 
-    def __str__(self):
-        return self.title
+        # ----------------------------------------------------
+        # 4. Celery Task Calling Logic
+        # ----------------------------------------------------
+        
+        # Condition Check: 
+        # 1. The post must currently be published (self.is_published == True)
+        # AND 
+        # 2. It must be either a new post (is_new == True) 
+        #    OR it must have just changed from 'Draft' (False) to 'Published' (True)
+        
+        if self.is_published and (is_new or not old_is_published):
+            # Call the Celery task
+            # .delay() sends the task asynchronously to the Redis queue
+            post_url = self.get_absolute_url()
+            send_new_post_notification_email.delay(self.title, post_url) 
+            print(f"Celery: New post notification task added for: {self.title}")
 
     class Meta:
         ordering = ['-created_date']

@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',      # Token authentication
     'rest_framework_simplejwt',     # JWT authentication
     'django_filters',                   # Filtering support for DRF
-
+    'drf_yasg',  # Swagger
 ]
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 CRISPY_TEMPLATE_PACK = "bootstrap4"
@@ -55,6 +55,8 @@ CUSTOM_APPS = [
     'blog',                            # Blog/homepage app
     'django_cleanup.apps.CleanupConfig',   # Automatically delete old files
     'blog_api.apps.AppHomeApiConfig',  # API for the blog app
+   
+
 ]
 
 # Combine default and custom apps
@@ -187,9 +189,9 @@ REST_FRAMEWORK = {
 
     # Global authentication settings
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'rest_framework.authentication.SessionAuthentication',   # Browser login/logout
+        'rest_framework.authentication.SessionAuthentication',   # Browser login/logout
         # 'rest_framework.authentication.BasicAuthentication',     # Postman simple auth
-        'rest_framework.authentication.TokenAuthentication',     # Token based API
+        # 'rest_framework.authentication.TokenAuthentication',     # Token based API
         # 'rest_framework_simplejwt.authentication.JWTAuthentication',  # JWT based API
     ],
 
@@ -219,7 +221,7 @@ REST_FRAMEWORK = {
 
     'ORDERING_PARAM': 'ordered_by',  # Default ordering parameter
     'SEARCH_PARAM': 'search_by',    # Default search parameter
-    
+
     # Global pagination settings
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 2  # প্রতি পৃষ্ঠায় আইটেমের সংখ্যা
