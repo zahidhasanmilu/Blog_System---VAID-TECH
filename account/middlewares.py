@@ -46,7 +46,6 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.contrib import messages
-from django.conf import settings
 
 User = get_user_model()
 
