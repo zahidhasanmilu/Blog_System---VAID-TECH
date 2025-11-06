@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.contrib.staticfiles.urls import static, staticfiles_urlpatterns
 from django.conf import settings
 
@@ -11,7 +11,6 @@ from rest_framework_simplejwt.views import (
 
 
 # ------------- for Swagger
-from django.urls import path, re_path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -36,15 +35,18 @@ urlpatterns = [
     path("api/", include("blog_api.urls")),  # API endpoints
     path("api-auth/", include("rest_framework.urls")),  # DRF login/logout views
     path("api-token-auth/", drf_auth_views.obtain_auth_token),  # DRF token auth
+    # Broken into multiple lines
     path(
         "api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"
     ),  # JWT token obtain
+    # Broken into multiple lines
     path(
         "api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"
     ),  # JWT token refresh
     # ----swagger -------------
     re_path(
         r"^swagger(?P<format>\.json|\.yaml)$",
+        # Call arguments are on a new line
         schema_view.without_ui(cache_timeout=0),
         name="schema-json",
     ),

@@ -8,7 +8,7 @@ from django.contrib.auth.models import (
 from django.utils import timezone
 from datetime import timedelta
 import os
-import os, uuid, random
+import os, uuid
 
 
 class CustomUserManager(BaseUserManager):

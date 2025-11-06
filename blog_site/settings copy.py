@@ -2,9 +2,8 @@ from datetime import timedelta
 from pathlib import Path
 import os
 
-# E402 ত্রুটি দূর করতে এটি উপরে আনা হয়েছে
+# Celery
 from celery.schedules import crontab
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -54,7 +53,6 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 # -----------------------------
 CUSTOM_APPS = [
     "blog",  # Blog/homepage app
-    # E501 ফিক্সড
     "django_cleanup.apps.CleanupConfig",  # Automatically delete old files
     "blog_api.apps.AppHomeApiConfig",  # API for the blog app
 ]
@@ -117,7 +115,6 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        # E501 ফিক্সড
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
@@ -187,10 +184,9 @@ REST_FRAMEWORK = {
     # Global authentication settings
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.SessionAuthentication",  # Browser login/logout
-        # 'rest_framework.authentication.BasicAuthentication', # Postman simple auth
-        # 'rest_framework.authentication.TokenAuthentication', # Token based API
-        # E501 ফিক্সড
-        "rest_framework_simplejwt.authentication.JWTAuthentication",  # JWT based API
+        # 'rest_framework.authentication.BasicAuthentication',     # Postman simple auth
+        # 'rest_framework.authentication.TokenAuthentication',     # Token based API
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',  # JWT based API
     ],
     # Global permission settings
     "DEFAULT_PERMISSION_CLASSES": [
@@ -198,14 +194,13 @@ REST_FRAMEWORK = {
     ],
     # Global throttle settings
     "DEFAULT_THROTTLE_CLASSES": [
-        # Throttle for anonymous users
-        "rest_framework.throttling.AnonRateThrottle",
+        "rest_framework.throttling.AnonRateThrottle",  # Throttle for anonymous users
         # Throttle for authenticated users
         "rest_framework.throttling.UserRateThrottle",
     ],
     "DEFAULT_THROTTLE_RATES": {
-        "anon": "500/hour",  # Anonymous user 5 req/hour (E501 ফিক্সড)
-        "user": "10/minute",  # Authenticated user 10 req/minute (E501 ফিক্সড)
+        "anon": "500/hour",  # Anonymous user 5 req/hour
+        "user": "10/minute",  # Authenticated user 10 req/minute
     },
     # Global filter settings
     "DEFAULT_FILTER_BACKENDS": [
@@ -221,6 +216,7 @@ REST_FRAMEWORK = {
 }
 
 # JWT Configuration
+
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=2),  # short token life
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),  # longer refresh life
@@ -235,7 +231,7 @@ CELERY_BEAT_SCHEDULE = {
         "task": "account.tasks.send_engagement_email_to_all_users",
         "schedule": crontab(minute="*/2"),  # every 2 minutes
     },
-    "print-time-every-day": {
+    "print-time-every-2-minutes": {
         "task": "account.tasks.print_current_time",
         "schedule": crontab(hour=23, minute=59),  # every day at 11:59 PM
     },
