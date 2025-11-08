@@ -71,8 +71,9 @@ def User_ProfileView(request, username):
                 
                 return redirect("profile", username=username)
             else:
+                form = BlogForm(request.POST, request.FILES)
                 logger.error("Blog form is not valid")
-                return redirect("profile", username=username)
+                print('Please fill all the fields')
         else:
             form = BlogForm()
 

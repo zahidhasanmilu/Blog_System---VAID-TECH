@@ -287,7 +287,7 @@ LOGGING = {
             "class": "logging.handlers.TimedRotatingFileHandler",
             "filename": BASE_DIR / "log/timed_debug.log",
             "formatter": "standard",
-            "when": "S",
+            "when": "midnight",
             "interval": 1,
             "backupCount": 3,
         },
@@ -305,3 +305,14 @@ LOGGING = {
     },
 }
 # ------------------   end logggin    ------------------#
+
+# ---- Sentry ---
+
+import sentry_sdk
+
+sentry_sdk.init(
+    dsn="https://cdd31fc8a813aa27b405d1025f458183@o4510329327386624.ingest.de.sentry.io/4510329400787024",
+    # Add data like request headers and IP for users,
+    # see https://docs.sentry.io/platforms/python/data-management/data-collected/ for more info
+    send_default_pii=True,
+)
