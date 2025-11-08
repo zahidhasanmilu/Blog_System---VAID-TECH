@@ -1,3 +1,4 @@
 .env
 
 .celerybeat-schedule
+.log

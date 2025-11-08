@@ -34,6 +34,8 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+import logging
+
 
 # ------------------------------------------
 
@@ -41,6 +43,7 @@ User = get_user_model()
 def User_ProfileView(request, username):
     profile_user = get_object_or_404(Profile, user__username=username)
     user_blogs = profile_user.user.user_blogs.all()
+    logger = logging.getLogger("create_blog")
 
     users_blog_count = (
         User.objects.filter(id=profile_user.user.id)
@@ -65,6 +68,10 @@ def User_ProfileView(request, username):
                 if image:
                     BlogImage.objects.create(blog=blog, image=image)
 
+                
+                return redirect("profile", username=username)
+            else:
+                logger.error("Blog form is not valid")
                 return redirect("profile", username=username)
         else:
             form = BlogForm()

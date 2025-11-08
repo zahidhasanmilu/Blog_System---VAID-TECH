@@ -220,7 +220,8 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 2,  # প্রতি পৃষ্ঠায় আইটেমের সংখ্যা
 }
 
-# JWT Configuration
+# ------------------  start JWT Configuration    ------------------#
+
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=2),  # short token life
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),  # longer refresh life
@@ -228,7 +229,10 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": True,
 }
 
-# -------------------CELERY_BEAT_SCHEDULE------------------- #
+# ------------------  end JWT Configuration    ------------------#
+
+
+# -------------------START CELERY_BEAT_SCHEDULE------------------- #
 
 CELERY_BEAT_SCHEDULE = {
     "send-engagement-email-every-2-minutes": {
@@ -240,3 +244,64 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": crontab(hour=23, minute=59),  # every day at 11:59 PM
     },
 }
+
+# ------------------  end CELERY_BEAT_SCHEDULE    ------------------#
+
+
+# ------------------  start logggin    ------------------#
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "standard": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+        "file": {
+            "level": "ERROR",
+            "class": "logging.FileHandler",
+            "filename": BASE_DIR / "log/debug.log",
+            "formatter": "standard",
+        },
+        "rotating_file": {
+            "level": "ERROR",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": BASE_DIR / "log/rotating_debug.log",
+            "formatter": "standard",
+            "maxBytes": 1024 * 1024 * 5,  # 5 MB
+            "backupCount": 3,
+        },
+        "timed_rotating_file": {
+            "level": "ERROR",
+            "class": "logging.handlers.TimedRotatingFileHandler",
+            "filename": BASE_DIR / "log/timed_debug.log",
+            "formatter": "standard",
+            "when": "S",
+            "interval": 1,
+            "backupCount": 3,
+        },
+    },
+    "loggers": {
+        "": {
+            "handlers": ["console"],
+            "propagate": True,
+        },
+        "create_blog": {
+            "handlers": ["rotating_file", "timed_rotating_file"],
+            "level": "DEBUG", 
+            "propagate": False,
+        },
+    },
+}
+# ------------------   end logggin    ------------------#
