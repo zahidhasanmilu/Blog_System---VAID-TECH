@@ -68,12 +68,11 @@ def User_ProfileView(request, username):
                 if image:
                     BlogImage.objects.create(blog=blog, image=image)
 
-                
                 return redirect("profile", username=username)
             else:
                 form = BlogForm(request.POST, request.FILES)
                 logger.error("Blog form is not valid")
-                print('Please fill all the fields')
+                print("Please fill all the fields")
         else:
             form = BlogForm()
 

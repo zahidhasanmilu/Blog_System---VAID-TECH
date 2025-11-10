@@ -186,11 +186,11 @@ CELERY_TASK_SERIALIZER = "json"
 REST_FRAMEWORK = {
     # Global authentication settings
     "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.BasicAuthentication", # Postman simple auth
         "rest_framework.authentication.SessionAuthentication",  # Browser login/logout
-        # 'rest_framework.authentication.BasicAuthentication', # Postman simple auth
         # 'rest_framework.authentication.TokenAuthentication', # Token based API
         # E501 ফিক্সড
-        "rest_framework_simplejwt.authentication.JWTAuthentication",  # JWT based API
+        # "rest_framework_simplejwt.authentication.JWTAuthentication",  # JWT based API
     ],
     # Global permission settings
     "DEFAULT_PERMISSION_CLASSES": [
@@ -217,7 +217,7 @@ REST_FRAMEWORK = {
     "SEARCH_PARAM": "search_by",  # Default search parameter
     # Global pagination settings
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 2,  # প্রতি পৃষ্ঠায় আইটেমের সংখ্যা
+    "PAGE_SIZE": 6,  # প্রতি পৃষ্ঠায় আইটেমের সংখ্যা
 }
 
 # ------------------  start JWT Configuration    ------------------#
@@ -299,7 +299,7 @@ LOGGING = {
         },
         "create_blog": {
             "handlers": ["rotating_file", "timed_rotating_file"],
-            "level": "DEBUG", 
+            "level": "DEBUG",
             "propagate": False,
         },
     },

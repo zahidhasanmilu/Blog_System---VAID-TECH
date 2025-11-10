@@ -40,9 +40,11 @@ class Category(models.Model):
     slug = models.SlugField(unique=True, blank=True, null=True, max_length=300)
 
     def save(self, *args, **kwargs):
-        if not self.slug:  # only generate slug if it doesn't exist
+        # যদি title পরিবর্তন হয়, slug update করবে
+        if not self.slug or Category.objects.filter(pk=self.pk, title=self.title).exists() is False:    
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+
 
     def __str__(self):
         return self.title
@@ -57,9 +59,10 @@ class Tag(models.Model):
     slug = models.SlugField(unique=True, blank=True, null=True, max_length=300)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
-        return super().save(*args, **kwargs)
-
+        # যদি title পরিবর্তন হয়, slug update করবে
+        if not self.slug or Tag.objects.filter(pk=self.pk, title=self.title).exists() is False:    
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
     def __str__(self):
         return self.title
 
